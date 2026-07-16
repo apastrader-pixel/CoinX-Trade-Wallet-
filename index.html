@@ -1,0 +1,1389 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>CoinX Trade – Buy & Sell</title>
+    <script src="https://cdn.tailwindcss.com">
+    </script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+    <script src="https://cdn.jsdelivr.net/npm/appwrite@16.0.2">
+    </script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: #0b0f19;
+            overflow-x: hidden;
+            user-select: none;
+        }
+        .gold-glow {
+            box-shadow: 0 0 20px rgba(245, 158, 11, 0.4);
+        }
+        .btn-animate {
+            transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        .btn-animate:active {
+            transform: scale(0.95);
+        }
+        ::-webkit-scrollbar {
+            width: 6px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #111827;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #f59e0b;
+            border-radius: 10px;
+        }
+        .hidden {
+            display: none !important;
+        }
+
+        .slider-container {
+            position: relative;
+            width: 100%;
+            height: 200px;
+            overflow: hidden;
+            border-radius: 16px;
+        }
+        .slider-track {
+            display: flex;
+            width: 1000%;
+            height: 100%;
+            animation: slide 50s infinite ease-in-out;
+        }
+        .slider-track .slide-item {
+            width: 10%;
+            height: 100%;
+            position: relative;
+            flex-shrink: 0;
+        }
+        .slider-track .slide-item img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        .slider-track .slide-item .slide-text {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            padding: 18px 14px;
+            background: linear-gradient(transparent, rgba(0, 0, 0, 0.8));
+            color: white;
+        }
+        .slide-text h3 {
+            font-size: 16px;
+            font-weight: bold;
+            color: #f59e0b;
+        }
+        .slide-text p {
+            font-size: 11px;
+            color: #e2e8f0;
+        }
+        .slide-text .badge {
+            display: inline-block;
+            background: #f59e0b;
+            color: #0f172a;
+            padding: 2px 12px;
+            border-radius: 20px;
+            font-size: 9px;
+            font-weight: bold;
+        }
+        @keyframes slide {
+            0%,
+            8% {
+                transform: translateX(0);
+            }
+            10%,
+            18% {
+                transform: translateX(-10%);
+            }
+            20%,
+            28% {
+                transform: translateX(-20%);
+            }
+            30%,
+            38% {
+                transform: translateX(-30%);
+            }
+            40%,
+            48% {
+                transform: translateX(-40%);
+            }
+            50%,
+            58% {
+                transform: translateX(-50%);
+            }
+            60%,
+            68% {
+                transform: translateX(-60%);
+            }
+            70%,
+            78% {
+                transform: translateX(-70%);
+            }
+            80%,
+            88% {
+                transform: translateX(-80%);
+            }
+            90%,
+            98% {
+                transform: translateX(-90%);
+            }
+            100% {
+                transform: translateX(0);
+            }
+        }
+        .slider-dots {
+            position: absolute;
+            bottom: 8px;
+            left: 0;
+            right: 0;
+            text-align: center;
+            z-index: 10;
+        }
+        .slider-dots span {
+            display: inline-block;
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.4);
+            margin: 0 3px;
+            transition: all 0.5s;
+        }
+        .slider-dots span.active {
+            background: #f59e0b;
+            width: 22px;
+            border-radius: 10px;
+        }
+
+        .price-card {
+            background: linear-gradient(135deg, #0f172a, #1e293b);
+            border: 1px solid #334155;
+            border-radius: 12px;
+            padding: 16px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        .price-card:hover {
+            transform: scale(1.02);
+        }
+        .price-card .price {
+            font-size: 24px;
+            font-weight: bold;
+            color: #f59e0b;
+        }
+        .price-card .label {
+            font-size: 10px;
+            color: #94a3b8;
+        }
+        .buy-price {
+            border-color: #22c55e;
+        }
+        .sell-price {
+            border-color: #ef4444;
+        }
+
+        .id-box {
+            background: #0f172a;
+            border-radius: 12px;
+            padding: 12px 16px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+        .id-box .id-label {
+            font-size: 9px;
+            color: #94a3b8;
+            display: block;
+        }
+        .id-box .id-value {
+            font-size: 13px;
+            font-weight: bold;
+            font-family: monospace;
+            word-break: break-all;
+        }
+        .id-box .id-usage {
+            font-size: 8px;
+            color: #f59e0b;
+            display: block;
+            margin-top: 2px;
+        }
+        .id-box-email {
+            border: 1px solid #22c55e;
+        }
+        .id-box-email .id-value {
+            color: #22c55e;
+        }
+        .id-box-coinx {
+            border: 1px solid #f59e0b;
+        }
+        .id-box-coinx .id-value {
+            color: #f59e0b;
+        }
+
+        .trade-balance-box {
+            background: #1e293b;
+            border-radius: 12px;
+            padding: 12px 16px;
+            border: 1px solid #4f46e5;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .trade-balance-box .label {
+            font-size: 10px;
+            color: #94a3b8;
+        }
+        .trade-balance-box .amount {
+            font-size: 20px;
+            font-weight: bold;
+            color: #a78bfa;
+        }
+
+        .session-box {
+            background: #0f172a;
+            border: 1px solid #2563eb;
+            border-radius: 12px;
+            padding: 12px 16px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+        .session-box .session-id {
+            font-size: 11px;
+            color: #60a5fa;
+            font-family: monospace;
+            word-break: break-all;
+        }
+
+        .bottom-nav {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            max-width: 440px;
+            margin: 0 auto;
+            background: #0f172a;
+            border-top: 1px solid #334155;
+            padding: 10px 0;
+            display: flex;
+            justify-content: space-around;
+            z-index: 50;
+        }
+        .bottom-nav button {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            color: #64748b;
+            font-size: 10px;
+            transition: all 0.3s;
+            background: none;
+            border: none;
+            cursor: pointer;
+        }
+        .bottom-nav button i {
+            font-size: 20px;
+            margin-bottom: 2px;
+        }
+        .bottom-nav button.active {
+            color: #f59e0b;
+        }
+
+        .filter-tabs {
+            display: flex;
+            gap: 3px;
+            background: #0f172a;
+            padding: 3px;
+            border-radius: 8px;
+            border: 1px solid #334155;
+            flex-wrap: wrap;
+        }
+        .filter-tabs button {
+            flex: 1;
+            padding: 4px 6px;
+            border-radius: 6px;
+            font-size: 9px;
+            font-weight: bold;
+            color: #94a3b8;
+            background: transparent;
+            border: none;
+            cursor: pointer;
+            transition: all 0.3s;
+            min-width: 40px;
+        }
+        .filter-tabs button.active {
+            background: #f59e0b;
+            color: #0f172a;
+        }
+        .filter-tabs button:hover:not(.active) {
+            color: #e2e8f0;
+        }
+
+        .history-item {
+            background: #0f172a;
+            border: 1px solid #334155;
+            border-radius: 8px;
+            padding: 12px 14px;
+            transition: all 0.3s;
+        }
+        .history-item:hover {
+            border-color: #f59e0b;
+        }
+        .history-item .type-buy {
+            color: #22c55e;
+        }
+        .history-item .type-sell {
+            color: #ef4444;
+        }
+        .history-item .type-transfer {
+            color: #8b5cf6;
+        }
+        .history-item .type-withdrawal {
+            color: #f59e0b;
+        }
+        .history-item .type-admin {
+            color: #f59e0b;
+        }
+        .history-item .type-deposit {
+            color: #3b82f6;
+        }
+        .history-item .type-transfer_trade {
+            color: #a78bfa;
+        }
+
+        .tab-section {
+            display: block;
+        }
+        .tab-section.hidden {
+            display: none !important;
+        }
+
+        .transfer-box input,
+        .transfer-box select {
+            background: #1e293b;
+            border: 1px solid #334155;
+            border-radius: 8px;
+            padding: 10px 12px;
+            color: white;
+            font-size: 12px;
+            width: 100%;
+            outline: none;
+        }
+        .transfer-box input:focus,
+        .transfer-box select:focus {
+            border-color: #8b5cf6;
+        }
+        .transfer-btn {
+            background: linear-gradient(135deg, #8b5cf6, #7c3aed);
+            color: white;
+            font-weight: bold;
+            padding: 10px;
+            border-radius: 8px;
+            border: none;
+            cursor: pointer;
+            transition: all 0.3s;
+            width: 100%;
+        }
+        .transfer-btn:hover {
+            transform: scale(1.02);
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Background Canvas -->
+    <canvas id="bgCanvas" class="fixed top-0 left-0 w-full h-full -z-10 pointer-events-none opacity-80"></canvas>
+
+    <!-- MAIN CONTAINER -->
+    <div id="appContainer" class="w-full max-w-md mx-auto">
+
+        <!-- HEADER -->
+        <header id="mainHeader" class="w-full backdrop-blur-md py-3 px-4 flex items-center justify-between sticky top-0 z-40 shadow-lg user-header">
+            <div class="flex items-center gap-3">
+                <div class="w-10 h-10 rounded-full bg-gradient-to-r from-amber-500 to-yellow-300 flex items-center justify-center text-slate-950 font-bold text-lg shadow-lg border border-amber-400">CX</div>
+                <div>
+                    <h1 id="headerTitle" class="font-bold text-md tracking-wider leading-none text-amber-400">COINX TRADE</h1>
+                    <span id="headerSubtitle" class="text-[9px] text-slate-400">Buy & Sell Platform</span>
+                </div>
+            </div>
+            <div class="text-right">
+                <span id="headerBadge" class="text-[9px] bg-green-500/10 text-green-400 border border-green-500/30 px-2 py-0.5 rounded-full font-bold">Live</span>
+            </div>
+        </header>
+
+        <!-- MAIN CONTENT -->
+        <main class="w-full px-4 pt-4 pb-24 flex-1 flex flex-col justify-start z-10">
+
+            <!-- ========================================================= -->
+            <!-- LOGIN PAGE                                                 -->
+            <!-- ========================================================= -->
+            <section id="loginPage" class="w-full space-y-6">
+                <div class="text-center space-y-2 py-6">
+                    <div class="w-20 h-20 rounded-full bg-gradient-to-tr from-amber-500 to-yellow-300 flex items-center justify-center text-slate-950 font-extrabold text-3xl mx-auto gold-glow border-2 border-amber-300">CX</div>
+                    <h2 class="text-2xl font-bold text-amber-400 tracking-wide mt-2">लॉगिन करें</h2>
+                    <p class="text-xs text-slate-400">Buy & Sell Portal में प्रवेश करें</p>
+                </div>
+                <div class="bg-slate-900/90 backdrop-blur-md p-6 rounded-2xl border border-slate-800 space-y-4 shadow-2xl">
+                    <div>
+                        <label class="block text-xs font-semibold text-slate-400 mb-1.5"><i class="fa-solid fa-envelope mr-1 text-amber-400"></i> ईमेल आईडी</label>
+                        <input type="email" id="loginUserId" placeholder="अपनी ईमेल आईडी दर्ज करें" class="w-full bg-slate-950 border border-slate-800 rounded-xl py-3 px-4 text-sm focus:outline-none focus:border-amber-400 text-white transition-all font-mono">
+                    </div>
+                    <div>
+                        <label class="block text-xs font-semibold text-slate-400 mb-1.5"><i class="fa-solid fa-lock mr-1 text-amber-400"></i> पासवर्ड</label>
+                        <input type="password" id="loginPassword" placeholder="अपना पासवर्ड डालें" class="w-full bg-slate-950 border border-slate-800 rounded-xl py-3 px-4 text-sm focus:outline-none focus:border-amber-400 text-white transition-all font-mono">
+                    </div>
+                    <button id="btn-login" onclick="handleLogin(this)" class="w-full bg-gradient-to-r from-amber-500 to-yellow-400 hover:from-amber-600 hover:to-yellow-500 text-slate-950 font-bold py-3.5 rounded-xl shadow-lg transition-all btn-animate text-sm mt-2 flex items-center justify-center gap-2">
+                        <span>लॉगिन करें</span> <i class="fa-solid fa-right-to-bracket"></i>
+                    </button>
+                    <p class="text-center text-xs text-slate-400 mt-2">
+                        नया अकाउंट? <a href="CoinX%20Network.html" class="text-amber-400 font-semibold underline">यहाँ रजिस्टर करें</a>
+                    </p>
+                </div>
+            </section>
+
+            <!-- ========================================================= -->
+            <!-- DASHBOARD / TRADE PAGE (BUY/SELL)                          -->
+            <!-- ========================================================= -->
+            <section id="dashboardPage" class="w-full hidden space-y-4">
+
+                <!-- SLIDER -->
+                <div class="slider-container">
+                    <div class="slider-track">
+                        <div class="slide-item">
+                            <img src="https://picsum.photos/seed/nature1/600/400" alt="Nature">
+                            <div class="slide-text"><h3>🌿 प्रकृति का सौंदर्य</h3><p>हरियाली और शांति</p><span class="badge">🌳 Garden</span></div>
+                        </div>
+                        <div class="slide-item">
+                            <img src="https://picsum.photos/seed/flowers2/600/400" alt="Flowers">
+                            <div class="slide-text"><h3>🌸 फूलों की बहार</h3><p>रंग-बिरंगे फूल</p><span class="badge">🌺 Flowers</span></div>
+                        </div>
+                        <div class="slide-item">
+                            <img src="https://picsum.photos/seed/leaves3/600/400" alt="Leaves">
+                            <div class="slide-text"><h3>🍃 हरी-भरी पत्तियाँ</h3><p>प्रकृति की हरियाली</p><span class="badge">🌿 Leaves</span></div>
+                        </div>
+                        <div class="slide-item">
+                            <img src="https://picsum.photos/seed/birds4/600/400" alt="Birds">
+                            <div class="slide-text"><h3>🕊️ पक्षियों का कलरव</h3><p>आज़ादी की उड़ान</p><span class="badge">🐦 Birds</span></div>
+                        </div>
+                        <div class="slide-item">
+                            <img src="https://picsum.photos/seed/trading5/600/400" alt="Trading">
+                            <div class="slide-text"><h3>📈 ट्रेडिंग चार्ट</h3><p>बाज़ार का उतार-चढ़ाव</p><span class="badge" style="background:#ec4899;">📊 Chart</span></div>
+                        </div>
+                        <div class="slide-item">
+                            <img src="https://picsum.photos/seed/office6/600/400" alt="Office">
+                            <div class="slide-text"><h3>🏢 ऑफिस मीटिंग</h3><p>टीम वर्क और प्लानिंग</p><span class="badge">💼 Meeting</span></div>
+                        </div>
+                        <div class="slide-item">
+                            <img src="https://picsum.photos/seed/mountains7/600/400" alt="Mountains">
+                            <div class="slide-text"><h3>🏔️ पहाड़ों की ऊँचाई</h3><p>स्वर्ग की सैर</p><span class="badge">⛰️ Mountains</span></div>
+                        </div>
+                        <div class="slide-item">
+                            <img src="https://picsum.photos/seed/sunset8/600/400" alt="Sunset">
+                            <div class="slide-text"><h3>🌅 सूर्यास्त का नज़ारा</h3><p>शाम की सुहानी बेला</p><span class="badge">🌇 Sunset</span></div>
+                        </div>
+                        <div class="slide-item">
+                            <img src="https://picsum.photos/seed/river9/600/400" alt="River">
+                            <div class="slide-text"><h3>🌊 नदी का बहाव</h3><p>शीतल और निर्मल</p><span class="badge">💧 River</span></div>
+                        </div>
+                        <div class="slide-item">
+                            <img src="https://picsum.photos/seed/forest10/600/400" alt="Forest">
+                            <div class="slide-text"><h3>🌳 घना जंगल</h3><p>प्रकृति की गोद में</p><span class="badge">🌲 Forest</span></div>
+                        </div>
+                    </div>
+                    <div class="slider-dots">
+                        <span class="active"></span><span></span><span></span><span></span><span></span>
+                        <span></span><span></span><span></span><span></span><span></span>
+                    </div>
+                </div>
+
+                <!-- User Info with IDs -->
+                <div class="bg-slate-900/80 backdrop-blur-md p-4 rounded-xl border border-slate-800">
+                    <div class="flex items-center justify-between">
+                        <div class="flex items-center gap-3">
+                            <div class="w-8 h-8 rounded-full bg-amber-500/10 border border-amber-500/30 flex items-center justify-center text-amber-400">
+                                <i class="fa-solid fa-user text-sm"></i>
+                            </div>
+                            <div>
+                                <h4 id="userWelcomeName" class="font-bold text-sm text-slate-200">User</h4>
+                                <p id="userWelcomeId" class="text-[9px] text-slate-400">ID: CX-XXXXXX</p>
+                            </div>
+                        </div>
+                        <span class="text-[9px] bg-green-500/10 text-green-400 border border-green-500/30 px-2 py-0.5 rounded-full">सक्रिय</span>
+                    </div>
+                    <div class="id-box id-box-coinx mt-2">
+                        <div>
+                            <span class="id-label">🆔 Unique CoinX ID</span>
+                            <span class="id-value" id="userCoinXId">CoinX123456789</span>
+                            <span class="id-usage">इस ID से कोइन भेजें/ले सकते हैं</span>
+                        </div>
+                        <button onclick="copyToClipboard('userCoinXId', '✅ CoinX ID कॉपी हो गई!')" class="text-amber-400 hover:text-white shrink-0 btn-animate text-xs">
+                            <i class="fa-solid fa-copy mr-1"></i> कॉपी
+                        </button>
+                    </div>
+                    <div class="id-box id-box-email mt-2">
+                        <div>
+                            <span class="id-label">📧 Email (Unique ID)</span>
+                            <span class="id-value" id="userEmailId">user@example.com</span>
+                            <span class="id-usage">ईमेल द्वारा भी कोइन भेज सकते हैं</span>
+                        </div>
+                        <button onclick="copyToClipboard('userEmailId', '✅ Email कॉपी हो गई!')" class="text-green-400 hover:text-white shrink-0 btn-animate text-xs">
+                            <i class="fa-solid fa-copy mr-1"></i> कॉपी
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Price Cards -->
+                <div class="grid grid-cols-2 gap-3">
+                    <div class="price-card buy-price" onclick="switchTab('buy')">
+                        <div class="label">🟢 Buy Price</div>
+                        <div class="price">₹101</div>
+                        <div class="label">≈ 90 CX</div>
+                    </div>
+                    <div class="price-card sell-price" onclick="switchTab('sell')">
+                        <div class="label">🔴 Sell Price</div>
+                        <div class="price">₹100</div>
+                        <div class="label">≈ 90 CX</div>
+                    </div>
+                </div>
+
+                <!-- Trade Wallet Balance -->
+                <div class="trade-balance-box">
+                    <span class="label">💰 Buy/Sell Wallet</span>
+                    <span id="tradeWalletBalance" class="amount">0.00 CX</span>
+                </div>
+
+                <!-- Main Balance Display (User Panel) -->
+                <div class="bg-slate-900/90 backdrop-blur-md p-3 rounded-xl border border-slate-800 flex justify-between items-center">
+                    <span class="text-[10px] text-slate-400">📊 User Panel Balance</span>
+                    <span id="mainBalanceDisplay" class="text-sm font-bold text-green-400">0.00 CX</span>
+                </div>
+
+                <!-- Tabs: Buy | Sell | Transfer | History -->
+                <div class="flex bg-slate-950 p-1 rounded-lg border border-slate-800 text-[10px]">
+                    <button onclick="switchTab('buy')" id="tab-buy" class="flex-1 py-1.5 text-center font-bold rounded bg-green-500 text-slate-950 transition-all btn-animate">Buy</button>
+                    <button onclick="switchTab('sell')" id="tab-sell" class="flex-1 py-1.5 text-center font-bold text-slate-400 rounded transition-all btn-animate">Sell</button>
+                    <button onclick="switchTab('transfer')" id="tab-transfer" class="flex-1 py-1.5 text-center font-bold text-slate-400 rounded transition-all btn-animate">Transfer</button>
+                    <button onclick="switchTab('history')" id="tab-history" class="flex-1 py-1.5 text-center font-bold text-slate-400 rounded transition-all btn-animate">History</button>
+                </div>
+
+                <!-- ===== BUY TAB ===== -->
+                <div id="section-buy" class="tab-section space-y-3">
+                    <div class="bg-slate-900/95 backdrop-blur-md p-4 rounded-xl border border-green-500/30 space-y-3">
+                        <h4 class="text-xs font-bold text-green-400"><i class="fa-solid fa-arrow-down mr-1"></i> कॉइन खरीदें</h4>
+                        <p class="text-[10px] text-slate-400">₹101 = 90 CX</p>
+                        <div>
+                            <label class="block text-[10px] text-slate-400 mb-1">INR Amount (₹)</label>
+                            <input type="number" id="buyINR" placeholder="₹ राशि दर्ज करें" class="w-full bg-slate-950 border border-slate-800 rounded-lg py-2.5 px-3 text-xs focus:outline-none focus:border-green-500 text-white" oninput="calculateBuy()">
+                            <div class="text-[9px] text-slate-500 mt-1">मिलेंगे: <span id="buyCoinsPreview" class="text-green-400 font-bold">0 CX</span></div>
+                        </div>
+                        <div>
+                            <label class="block text-[10px] text-slate-400 mb-1">UPI ID (जिससे भुगतान करेंगे)</label>
+                            <input type="text" id="buyUpi" placeholder="आपका UPI ID" class="w-full bg-slate-950 border border-slate-800 rounded-lg py-2.5 px-3 text-xs focus:outline-none focus:border-green-500 text-white">
+                        </div>
+                        <button onclick="submitBuyRequest()" class="w-full bg-green-500 hover:bg-green-600 text-slate-950 font-bold py-2.5 rounded-lg text-xs transition-all btn-animate flex items-center justify-center gap-2">
+                            <i class="fa-solid fa-paper-plane"></i>
+                            <span>बाय रिक्वेस्ट भेजें</span>
+                        </button>
+                        <p class="text-[8px] text-slate-500 text-center">आपकी रिक्वेस्ट एडमिन को भेजी जाएगी। कॉइन आपके Trade Wallet में क्रेडिट होंगे।</p>
+                    </div>
+                </div>
+
+                <!-- ===== SELL TAB ===== -->
+                <div id="section-sell" class="tab-section space-y-3 hidden">
+                    <div class="bg-slate-900/95 backdrop-blur-md p-4 rounded-xl border border-red-500/30 space-y-3">
+                        <h4 class="text-xs font-bold text-red-400"><i class="fa-solid fa-arrow-up mr-1"></i> कॉइन बेचें</h4>
+                        <p class="text-[10px] text-slate-400">₹100 = 90 CX</p>
+                        <div>
+                            <label class="block text-[10px] text-slate-400 mb-1">CX Amount</label>
+                            <input type="number" id="sellAmount" placeholder="कॉइन संख्या" class="w-full bg-slate-950 border border-slate-800 rounded-lg py-2.5 px-3 text-xs focus:outline-none focus:border-red-500 text-white" oninput="calculateSell()">
+                            <div class="text-[9px] text-slate-500 mt-1">मिलेंगे: ₹<span id="sellInrPreview" class="text-red-400 font-bold">0</span></div>
+                            <div class="text-[9px] text-yellow-400 mt-0.5">⚠️ अधिकतम: <span id="maxSellDisplay">0</span> CX</div>
+                        </div>
+                        <div>
+                            <label class="block text-[10px] text-slate-400 mb-1">UPI ID / Bank Account</label>
+                            <input type="text" id="sellAddress" placeholder="UPI ID दर्ज करें" class="w-full bg-slate-950 border border-slate-800 rounded-lg py-2.5 px-3 text-xs focus:outline-none focus:border-red-500 text-white">
+                        </div>
+                        <button onclick="submitSellRequest()" class="w-full bg-red-500 hover:bg-red-600 text-white font-bold py-2.5 rounded-lg text-xs transition-all btn-animate flex items-center justify-center gap-2">
+                            <i class="fa-solid fa-paper-plane"></i>
+                            <span>सेल रिक्वेस्ट भेजें</span>
+                        </button>
+                        <p class="text-[8px] text-slate-500 text-center">आपकी सेल रिक्वेस्ट एडमिन को भेजी जाएगी।</p>
+                    </div>
+                </div>
+
+                <!-- ===== TRANSFER TAB ===== -->
+                <div id="section-transfer" class="tab-section space-y-3 hidden">
+                    <div class="bg-slate-900/95 backdrop-blur-md p-4 rounded-xl border border-purple-500/30 space-y-4">
+                        <h4 class="text-xs font-bold text-purple-400"><i class="fa-solid fa-exchange mr-1"></i> ट्रांसफर</h4>
+
+                        <!-- Buy/Sell → User Panel -->
+                        <div class="bg-slate-950 p-3 rounded-lg border border-slate-800">
+                            <h5 class="text-[10px] font-bold text-amber-400">🔄 Buy/Sell → User Panel</h5>
+                            <p class="text-[9px] text-slate-400">अपने Buy/Sell Wallet से किसी के User Panel में कॉइन भेजें</p>
+                            <div class="mt-2 space-y-2">
+                                <input type="text" id="transferToUserEmail" placeholder="ईमेल या CoinX ID" class="w-full bg-slate-950 border border-slate-800 rounded-lg py-2 px-3 text-xs focus:outline-none focus:border-purple-500 text-white">
+                                <input type="number" id="transferToUserAmount" placeholder="कॉइन संख्या" class="w-full bg-slate-950 border border-slate-800 rounded-lg py-2 px-3 text-xs focus:outline-none focus:border-purple-500 text-white" oninput="checkMaxTransfer()">
+                                <div class="text-[10px] text-slate-500">अधिकतम: <span id="maxTransferDisplay">0</span> CX</div>
+                                <button onclick="transferCoinsToUser()" class="w-full bg-purple-500 hover:bg-purple-600 text-white font-bold py-2 rounded-lg text-xs transition-all btn-animate">
+                                    <i class="fa-solid fa-arrow-right mr-1"></i> भेजें
+                                </button>
+                            </div>
+                        </div>
+
+                        <!-- User Panel → Buy/Sell -->
+                        <div class="bg-slate-950 p-3 rounded-lg border border-slate-800">
+                            <h5 class="text-[10px] font-bold text-blue-400">🔄 User Panel → Buy/Sell</h5>
+                            <p class="text-[9px] text-slate-400">अपने User Panel से Buy/Sell Wallet में कॉइन जमा करें</p>
+                            <div class="mt-2 space-y-2">
+                                <input type="number" id="depositToTradeAmount" placeholder="कॉइन संख्या" class="w-full bg-slate-950 border border-slate-800 rounded-lg py-2 px-3 text-xs focus:outline-none focus:border-blue-500 text-white">
+                                <div class="text-[10px] text-slate-500">अधिकतम: <span id="maxDepositToTrade">0</span> CX</div>
+                                <button onclick="depositToTradeWallet()" class="w-full bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 rounded-lg text-xs transition-all btn-animate">
+                                    <i class="fa-solid fa-arrow-right mr-1"></i> जमा करें
+                                </button>
+                            </div>
+                        </div>
+
+                        <!-- Transfer to other user's Buy/Sell -->
+                        <div class="bg-slate-950 p-3 rounded-lg border border-slate-800">
+                            <h5 class="text-[10px] font-bold text-pink-400">🔄 किसी अन्य के Buy/Sell Wallet में भेजें</h5>
+                            <p class="text-[9px] text-slate-400">किसी अन्य यूजर के Buy/Sell Wallet में कॉइन भेजें</p>
+                            <div class="mt-2 space-y-2">
+                                <input type="text" id="transferToOtherEmail" placeholder="ईमेल या CoinX ID" class="w-full bg-slate-950 border border-slate-800 rounded-lg py-2 px-3 text-xs focus:outline-none focus:border-pink-500 text-white">
+                                <input type="number" id="transferToOtherAmount" placeholder="कॉइन संख्या" class="w-full bg-slate-950 border border-slate-800 rounded-lg py-2 px-3 text-xs focus:outline-none focus:border-pink-500 text-white" oninput="checkMaxTransferOther()">
+                                <div class="text-[10px] text-slate-500">अधिकतम: <span id="maxTransferOtherDisplay">0</span> CX</div>
+                                <button onclick="transferCoinsToOther()" class="w-full bg-pink-500 hover:bg-pink-600 text-white font-bold py-2 rounded-lg text-xs transition-all btn-animate">
+                                    <i class="fa-solid fa-paper-plane mr-1"></i> भेजें
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- ===== HISTORY TAB ===== -->
+                <div id="section-history" class="tab-section space-y-3 hidden">
+                    <div class="bg-slate-900/95 backdrop-blur-md p-4 rounded-xl border border-amber-500/30 space-y-3">
+                        <h4 class="text-xs font-bold text-amber-400"><i class="fa-solid fa-clock mr-1"></i> Transaction History</h4>
+                        <div class="filter-tabs">
+                            <button class="active" onclick="filterHistory('all')">सभी</button>
+                            <button onclick="filterHistory('buy')">🟢 Buy</button>
+                            <button onclick="filterHistory('sell')">🔴 Sell</button>
+                            <button onclick="filterHistory('deposit')">🔵 Deposit</button>
+                            <button onclick="filterHistory('transfer')">🔄 Transfer</button>
+                            <button onclick="filterHistory('withdrawal')">🟡 Withdrawal</button>
+                            <button onclick="filterHistory('admin')">📞 Support</button>
+                            <button onclick="filterHistory('transfer_trade')">🟣 Trade Transfer</button>
+                        </div>
+                        <div id="historyList" class="space-y-2 max-h-[400px] overflow-y-auto">
+                            <p class="text-[10px] text-slate-500 text-center py-4">कोई लेनदेन नहीं है</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Logout -->
+                <button onclick="handleLogout()" class="w-full bg-red-500/10 hover:bg-red-500/20 text-red-400 border border-red-500/30 font-semibold py-2 rounded-lg text-xs transition-all text-center btn-animate">
+                    <i class="fa-solid fa-power-off mr-1.5"></i> लॉगआउट
+                </button>
+            </section>
+
+        </main>
+
+        <!-- Bottom Navigation -->
+        <nav id="bottomNavBar" class="fixed bottom-0 left-0 right-0 max-w-md mx-auto bg-slate-950/95 backdrop-blur-md border-t border-slate-800 flex items-center justify-around py-3 z-30 shadow-2xl hidden">
+            <button onclick="switchTab('buy')" id="nav-buy" class="flex flex-col items-center justify-center text-slate-400 text-center transition-all btn-animate">
+                <i class="fa-solid fa-arrow-down text-lg mb-0.5"></i>
+                <span class="text-[9px] font-medium">Buy</span>
+            </button>
+            <button onclick="switchTab('sell')" id="nav-sell" class="flex flex-col items-center justify-center text-slate-400 text-center transition-all btn-animate">
+                <i class="fa-solid fa-arrow-up text-lg mb-0.5"></i>
+                <span class="text-[9px] font-medium">Sell</span>
+            </button>
+            <button onclick="switchTab('transfer')" id="nav-transfer" class="flex flex-col items-center justify-center text-slate-400 text-center transition-all btn-animate">
+                <i class="fa-solid fa-exchange text-lg mb-0.5"></i>
+                <span class="text-[9px] font-medium">Transfer</span>
+            </button>
+            <button onclick="switchTab('history')" id="nav-history" class="flex flex-col items-center justify-center text-slate-400 text-center transition-all btn-animate">
+                <i class="fa-solid fa-clock-rotate-left text-lg mb-0.5"></i>
+                <span class="text-[9px] font-medium">History</span>
+            </button>
+        </nav>
+
+        <!-- Toast Notification -->
+        <div id="toastNotification" class="fixed top-16 max-w-sm w-[90%] bg-slate-900/95 border border-amber-500/50 text-amber-400 rounded-xl py-3 px-4 shadow-2xl z-50 text-xs flex items-center justify-between transition-all duration-300 opacity-0 pointer-events-none transform translate-y-[-20px]">
+            <div class="flex items-center gap-2">
+                <i class="fa-solid fa-bell animate-bounce text-amber-400 text-sm"></i>
+                <span id="toastMessage">नोटिफिकेशन</span>
+            </div>
+            <button onclick="hideToast()" class="text-slate-400 hover:text-white btn-animate"><i class="fa-solid fa-xmark"></i></button>
+        </div>
+
+    </div>
+
+    <script>
+        // ============================================================
+        // APPWRITE CONFIGURATION (same as main system)
+        // ============================================================
+        const APPWRITE_ENDPOINT = "https://fra.cloud.appwrite.io/v1";
+        const APPWRITE_PROJECT_ID = "6a43cbf70027f5ff8960";
+        const DATABASE_ID = "6a47b7550016c4291ab3";
+        const USERS_COLLECTION_ID = "users";
+
+        const { Client, Databases, Account, Query, ID } = Appwrite;
+
+        const client = new Client()
+            .setEndpoint(APPWRITE_ENDPOINT)
+            .setProject(APPWRITE_PROJECT_ID);
+
+        const databases = new Databases(client);
+        const account = new Account(client);
+
+        // ============================================================
+        // STATE
+        // ============================================================
+        let currentUser = null;
+        let historyFilter = 'all';
+
+        // ============================================================
+        // UTILITY
+        // ============================================================
+        function parseJsonSafe(value, fallback) {
+            if (value === null || value === undefined || value === '') return fallback;
+            if (typeof value !== 'string') return value;
+            try { return JSON.parse(value); } catch (e) { return fallback; }
+        }
+
+        function generateCoinXId() {
+            const random = Math.floor(100000000 + Math.random() * 900000000);
+            return 'CoinX' + random;
+        }
+
+        function setButtonLoading(button, isLoading) {
+            if (!button) return;
+            if (isLoading) {
+                button.disabled = true;
+                button.setAttribute('data-original', button.innerHTML);
+                button.innerHTML = `<i class="fa-solid fa-spinner animate-spin"></i> Processing...`;
+            } else {
+                button.disabled = false;
+                const orig = button.getAttribute('data-original');
+                if (orig) button.innerHTML = orig;
+            }
+        }
+
+        function getCoinsFromINR(inr) { return (inr / 101) * 90; }
+
+        function getINRfromCoins(coins) { return (coins / 90) * 100; }
+
+        function mapUserDoc(doc) {
+            return {
+                ...doc,
+                docId: doc.$id,
+                sellRequests: parseJsonSafe(doc.sell_requests, []),
+                buyRequests: parseJsonSafe(doc.buy_requests, []),
+                transactions: parseJsonSafe(doc.transactions, []),
+                buySellWallet: parseFloat(doc.buySellWallet || 0),
+                coins: parseFloat(doc.coins || 0),
+                coinxId: doc.coinxId || doc.coinxid || generateCoinXId()
+            };
+        }
+
+        // ============================================================
+        // TOAST
+        // ============================================================
+        let toastTimer = null;
+
+        function showToast(message, type = 'success') {
+            const toast = document.getElementById('toastNotification');
+            document.getElementById('toastMessage').innerText = message;
+            const color = type === 'success' ? 'green' : type === 'error' ? 'red' : 'amber';
+            toast.className =
+                `fixed top-16 max-w-sm w-[90%] bg-slate-900/95 border border-${color}-500/50 text-${color}-400 rounded-xl py-3 px-4 shadow-2xl z-50 text-xs flex items-center justify-between transition-all duration-300 opacity-0 pointer-events-none transform translate-y-[-20px]`;
+            toast.classList.remove('opacity-0', 'pointer-events-none', 'translate-y-[-20px]');
+            toast.classList.add('opacity-100', 'translate-y-0');
+            if (toastTimer) clearTimeout(toastTimer);
+            toastTimer = setTimeout(hideToast, 4000);
+        }
+
+        function hideToast() {
+            const toast = document.getElementById('toastNotification');
+            toast.classList.add('opacity-0', 'pointer-events-none', 'translate-y-[-20px]');
+            toastTimer = null;
+        }
+
+        function copyToClipboard(elementId, successText) {
+            const elem = document.getElementById(elementId);
+            if (!elem) return;
+            const copyText = elem.innerText;
+            if (navigator.clipboard && navigator.clipboard.writeText) {
+                navigator.clipboard.writeText(copyText).catch(() => legacyCopyFallback(copyText));
+            } else {
+                legacyCopyFallback(copyText);
+            }
+            if (successText) showToast(successText, 'success');
+        }
+
+        function legacyCopyFallback(copyText) {
+            const tempInput = document.createElement("input");
+            tempInput.value = copyText;
+            document.body.appendChild(tempInput);
+            tempInput.select();
+            document.execCommand("copy");
+            document.body.removeChild(tempInput);
+        }
+
+        // ============================================================
+        // BACKGROUND ANIMATION
+        // ============================================================
+        const canvas = document.getElementById('bgCanvas');
+        const ctx = canvas.getContext('2d');
+        let w = canvas.width = window.innerWidth;
+        let h = canvas.height = window.innerHeight;
+        window.addEventListener('resize', () => { w = canvas.width = window.innerWidth;
+            h = canvas.height = window.innerHeight; });
+
+        const candles = [];
+        for (let i = 0; i < 15; i++) {
+            candles.push({
+                x: Math.random() * w,
+                y: h + Math.random() * 200,
+                width: Math.random() * 6 + 4,
+                height: Math.random() * 50 + 15,
+                isGreen: Math.random() > 0.5,
+                speed: Math.random() * 0.4 + 0.1,
+                alpha: Math.random() * 0.1 + 0.03
+            });
+        }
+
+        function animateBg() {
+            ctx.clearRect(0, 0, w, h);
+            candles.forEach(c => {
+                ctx.fillStyle = c.isGreen ? `rgba(34,197,94,${c.alpha})` : `rgba(239,68,68,${c.alpha})`;
+                ctx.fillRect(c.x - c.width / 2, c.y, c.width, c.height);
+                c.y -= c.speed;
+                if (c.y < -100) { c.y = h + Math.random() * 200;
+                    c.x = Math.random() * w; }
+            });
+            requestAnimationFrame(animateBg);
+        }
+        animateBg();
+
+        // ============================================================
+        // AUTH
+        // ============================================================
+        async function handleLogin(btn) {
+            const email = document.getElementById('loginUserId').value.trim();
+            const password = document.getElementById('loginPassword').value.trim();
+
+            if (!email || !password) {
+                showToast("ईमेल और पासवर्ड दर्ज करें", 'error');
+                return;
+            }
+
+            setButtonLoading(btn, true);
+            try {
+                try { await account.get();
+                    await account.deleteSession('current'); } catch (e) {}
+                await account.createEmailPasswordSession(email, password);
+                await loadUser();
+                showToast("✅ लॉगिन सफल!", 'success');
+                document.getElementById('loginPage').classList.add('hidden');
+                document.getElementById('dashboardPage').classList.remove('hidden');
+                document.getElementById('bottomNavBar').classList.remove('hidden');
+                updateUI();
+                renderHistory();
+                updateMaxSell();
+                updateMaxTransfer();
+                updateMaxDepositToTrade();
+                updateMaxTransferOther();
+                switchTab('buy');
+            } catch (e) {
+                showToast("❌ " + (e.message || "गलत ईमेल या पासवर्ड"), 'error');
+            } finally {
+                setButtonLoading(btn, false);
+            }
+        }
+
+        async function handleLogout() {
+            try { await account.deleteSession('current'); } catch (e) {}
+            currentUser = null;
+            document.getElementById('loginPage').classList.remove('hidden');
+            document.getElementById('dashboardPage').classList.add('hidden');
+            document.getElementById('bottomNavBar').classList.add('hidden');
+            showToast("लॉगआउट हो गया", 'info');
+        }
+
+        async function loadUser() {
+            const acc = await account.get();
+            const doc = await databases.getDocument(DATABASE_ID, USERS_COLLECTION_ID, acc.$id);
+            if (!doc.coinxId && !doc.coinxid) {
+                const newId = generateCoinXId();
+                await databases.updateDocument(DATABASE_ID, USERS_COLLECTION_ID, doc.$id, { coinxId: newId });
+                doc.coinxId = newId;
+            }
+            currentUser = {
+                ...doc,
+                docId: doc.$id,
+                coinxId: doc.coinxId || doc.coinxid || generateCoinXId(),
+                buySellWallet: parseFloat(doc.buySellWallet || 0),
+                transactions: parseJsonSafe(doc.transactions, []),
+                sellRequests: parseJsonSafe(doc.sell_requests, []),
+                buyRequests: parseJsonSafe(doc.buy_requests, []),
+                coins: parseFloat(doc.coins || 0)
+            };
+            document.getElementById('userEmailId').innerText = currentUser.email;
+            document.getElementById('userCoinXId').innerText = currentUser.coinxId;
+        }
+
+        function updateUI() {
+            if (!currentUser) return;
+            document.getElementById('userWelcomeName').innerText = currentUser.name || 'User';
+            document.getElementById('userWelcomeId').innerText = `ID: ${currentUser.email || ''}`;
+            document.getElementById('userCoinXId').innerText = currentUser.coinxId || 'N/A';
+            document.getElementById('userEmailId').innerText = currentUser.email || '';
+            const wallet = parseFloat(currentUser.buySellWallet || 0);
+            document.getElementById('tradeWalletBalance').innerText = wallet.toFixed(2) + ' CX';
+            const mainBalance = parseFloat(currentUser.coins || 0);
+            document.getElementById('mainBalanceDisplay').innerText = mainBalance.toFixed(2) + ' CX';
+            updateMaxSell();
+            updateMaxTransfer();
+            updateMaxDepositToTrade();
+            updateMaxTransferOther();
+        }
+
+        function updateMaxSell() {
+            const wallet = parseFloat(currentUser?.buySellWallet || 0);
+            document.getElementById('maxSellDisplay').innerText = wallet.toFixed(0);
+        }
+
+        function updateMaxTransfer() {
+            const wallet = parseFloat(currentUser?.buySellWallet || 0);
+            document.getElementById('maxTransferDisplay').innerText = wallet.toFixed(0);
+        }
+
+        function updateMaxDepositToTrade() {
+            const coins = parseFloat(currentUser?.coins || 0);
+            document.getElementById('maxDepositToTrade').innerText = coins.toFixed(0);
+        }
+
+        function updateMaxTransferOther() {
+            const wallet = parseFloat(currentUser?.buySellWallet || 0);
+            document.getElementById('maxTransferOtherDisplay').innerText = wallet.toFixed(0);
+        }
+
+        function checkMaxTransfer() {
+            const amount = parseFloat(document.getElementById('transferToUserAmount').value) || 0;
+            const wallet = parseFloat(currentUser?.buySellWallet || 0);
+            if (amount > wallet) {
+                document.getElementById('transferToUserAmount').value = wallet;
+                showToast(`⚠️ सिर्फ ${wallet.toFixed(0)} CX है!`, 'info');
+            }
+        }
+
+        function checkMaxTransferOther() {
+            const amount = parseFloat(document.getElementById('transferToOtherAmount').value) || 0;
+            const wallet = parseFloat(currentUser?.buySellWallet || 0);
+            if (amount > wallet) {
+                document.getElementById('transferToOtherAmount').value = wallet;
+                showToast(`⚠️ सिर्फ ${wallet.toFixed(0)} CX है!`, 'info');
+            }
+        }
+
+        async function saveUserFields(fields) {
+            if (!currentUser) return;
+            await databases.updateDocument(DATABASE_ID, USERS_COLLECTION_ID, currentUser.$id, fields);
+            Object.assign(currentUser, fields);
+            if ('sell_requests' in fields) currentUser.sellRequests = parseJsonSafe(fields.sell_requests, []);
+            if ('buy_requests' in fields) currentUser.buyRequests = parseJsonSafe(fields.buy_requests, []);
+            if ('transactions' in fields) currentUser.transactions = parseJsonSafe(fields.transactions, []);
+            if ('buySellWallet' in fields) currentUser.buySellWallet = parseFloat(fields.buySellWallet);
+            if ('coins' in fields) currentUser.coins = parseFloat(fields.coins);
+            updateUI();
+            renderHistory();
+        }
+
+        // ============================================================
+        // TABS
+        // ============================================================
+        function switchTab(tab) {
+            document.querySelectorAll('.tab-section').forEach(el => el.classList.add('hidden'));
+            document.getElementById('section-' + tab).classList.remove('hidden');
+
+            document.querySelectorAll('#bottomNavBar button').forEach(b => {
+                b.classList.remove('text-green-400', 'text-red-400', 'text-purple-400', 'text-amber-400');
+                b.classList.add('text-slate-400');
+            });
+            const navMap = { 'buy': 'nav-buy', 'sell': 'nav-sell', 'transfer': 'nav-transfer', 'history': 'nav-history' };
+            const activeBtn = document.getElementById(navMap[tab]);
+            if (activeBtn) {
+                activeBtn.classList.remove('text-slate-400');
+                if (tab === 'buy') activeBtn.classList.add('text-green-400');
+                else if (tab === 'sell') activeBtn.classList.add('text-red-400');
+                else if (tab === 'transfer') activeBtn.classList.add('text-purple-400');
+                else if (tab === 'history') activeBtn.classList.add('text-amber-400');
+            }
+
+            document.querySelectorAll('#dashboardPage .flex button').forEach(b => {
+                b.classList.remove('bg-green-500', 'bg-red-500', 'bg-purple-500', 'bg-amber-500', 'text-slate-950');
+                b.classList.add('text-slate-400');
+            });
+            const topBtn = document.getElementById('tab-' + tab);
+            if (topBtn) {
+                topBtn.classList.remove('text-slate-400');
+                if (tab === 'buy') topBtn.classList.add('bg-green-500', 'text-slate-950');
+                else if (tab === 'sell') topBtn.classList.add('bg-red-500', 'text-slate-950');
+                else if (tab === 'transfer') topBtn.classList.add('bg-purple-500', 'text-slate-950');
+                else if (tab === 'history') topBtn.classList.add('bg-amber-500', 'text-slate-950');
+            }
+
+            if (tab === 'history') renderHistory();
+            if (tab === 'sell') updateMaxSell();
+            if (tab === 'transfer') { updateMaxTransfer();
+                updateMaxDepositToTrade();
+                updateMaxTransferOther(); }
+        }
+
+        // ============================================================
+        // BUY
+        // ============================================================
+        function calculateBuy() {
+            const inr = parseFloat(document.getElementById('buyINR').value) || 0;
+            document.getElementById('buyCoinsPreview').innerText = getCoinsFromINR(inr).toFixed(0) + ' CX';
+        }
+
+        async function submitBuyRequest() {
+            if (!currentUser) { showToast("❌ पहले लॉगिन करें।", 'error'); return; }
+            const inr = parseFloat(document.getElementById('buyINR').value);
+            const upi = document.getElementById('buyUpi').value.trim();
+
+            if (!inr || inr <= 0) { showToast("❌ सही INR राशि दर्ज करें।", 'error'); return; }
+            if (!upi) { showToast("❌ UPI ID दर्ज करें।", 'error'); return; }
+
+            const coins = getCoinsFromINR(inr);
+
+            try {
+                const buyRequests = [...(currentUser.buyRequests || [])];
+                buyRequests.push({
+                    inrAmount: inr,
+                    coinsAmount: coins,
+                    upi: upi,
+                    dateTime: new Date().toLocaleString('hi-IN'),
+                    status: 'Pending'
+                });
+
+                await saveUserFields({ buy_requests: JSON.stringify(buyRequests) });
+
+                document.getElementById('buyINR').value = '';
+                document.getElementById('buyUpi').value = '';
+                document.getElementById('buyCoinsPreview').innerText = '0 CX';
+                showToast(`✅ बाय रिक्वेस्ट भेज दी गई! ${coins.toFixed(0)} CX`, 'success');
+            } catch (e) {
+                showToast('बाय रिक्वेस्ट भेजने में त्रुटि!', 'error');
+            }
+        }
+
+        // ============================================================
+        // SELL
+        // ============================================================
+        function calculateSell() {
+            const coins = parseFloat(document.getElementById('sellAmount').value) || 0;
+            const wallet = parseFloat(currentUser?.buySellWallet || 0);
+            if (coins > wallet) {
+                document.getElementById('sellAmount').value = wallet;
+                document.getElementById('sellInrPreview').innerText = getINRfromCoins(wallet).toFixed(0);
+                showToast(`⚠️ सिर्फ ${wallet.toFixed(0)} CX है!`, 'info');
+                return;
+            }
+            document.getElementById('sellInrPreview').innerText = getINRfromCoins(coins).toFixed(0);
+        }
+
+        async function submitSellRequest() {
+            if (!currentUser) { showToast("❌ पहले लॉगिन करें।", 'error'); return; }
+            const amount = parseFloat(document.getElementById('sellAmount').value);
+            const address = document.getElementById('sellAddress').value.trim();
+
+            if (!amount || amount <= 0) { showToast("❌ सही कॉइन संख्या दर्ज करें।", 'error'); return; }
+            if (amount > parseFloat(currentUser.buySellWallet || 0)) { showToast("⚠️ आपके पास इतने कॉइन नहीं हैं!", 'error'); return; }
+            if (!address) { showToast("❌ UPI ID / Bank Account दर्ज करें।", 'error'); return; }
+
+            try {
+                const newWallet = parseFloat(currentUser.buySellWallet || 0) - amount;
+                const sellReq = {
+                    coinsAmount: amount,
+                    address: address,
+                    dateTime: new Date().toLocaleString('hi-IN'),
+                    status: 'Pending'
+                };
+                const sellRequests = [...(currentUser.sellRequests || [])];
+                sellRequests.push(sellReq);
+
+                await saveUserFields({
+                    buySellWallet: newWallet,
+                    sell_requests: JSON.stringify(sellRequests)
+                });
+
+                document.getElementById('sellAmount').value = '';
+                document.getElementById('sellAddress').value = '';
+                updateUI();
+                showToast(`✅ ${amount} CX की सेल रिक्वेस्ट भेज दी गई।`, 'success');
+            } catch (e) {
+                showToast('सेल रिक्वेस्ट भेजने में त्रुटि!', 'error');
+            }
+        }
+
+        // ============================================================
+        // TRANSFERS
+        // ============================================================
+        async function transferCoinsToUser() {
+            if (!currentUser) { showToast("❌ पहले लॉगिन करें।", 'error'); return; }
+            const identifier = document.getElementById('transferToUserEmail').value.trim();
+            const amount = parseFloat(document.getElementById('transferToUserAmount').value);
+
+            if (!identifier) { showToast("❌ ईमेल या CoinX ID दर्ज करें।", 'error'); return; }
+            if (!amount || amount <= 0) { showToast("❌ सही कॉइन संख्या दर्ज करें।", 'error'); return; }
+            if (amount > parseFloat(currentUser.buySellWallet || 0)) { showToast("⚠️ आपके पास इतने कॉइन नहीं हैं!", 'error'); return; }
+
+            try {
+                // Find target user
+                const res = await databases.listDocuments(DATABASE_ID, USERS_COLLECTION_ID, [
+                    Query.or([
+                        Query.equal('email', identifier),
+                        Query.equal('coinxId', identifier)
+                    ])
+                ]);
+                if (res.documents.length === 0) { showToast("❌ यूजर नहीं मिला!", 'error'); return; }
+                const targetUser = res.documents[0];
+                if (targetUser.$id === currentUser.$id) { showToast("❌ खुद को ट्रांसफर नहीं कर सकते!", 'error'); return; }
+
+                const newSenderWallet = parseFloat(currentUser.buySellWallet || 0) - amount;
+                const newReceiverCoins = parseFloat(targetUser.coins || 0) + amount;
+
+                await databases.updateDocument(DATABASE_ID, USERS_COLLECTION_ID, currentUser.$id, {
+                    buySellWallet: newSenderWallet
+                });
+                await databases.updateDocument(DATABASE_ID, USERS_COLLECTION_ID, targetUser.$id, {
+                    coins: newReceiverCoins
+                });
+
+                const tx = {
+                    type: 'transfer',
+                    amount: amount,
+                    toEmail: targetUser.email,
+                    fromEmail: currentUser.email,
+                    toCoinXId: targetUser.coinxId,
+                    fromCoinXId: currentUser.coinxId,
+                    status: 'completed',
+                    dateTime: new Date().toLocaleString('hi-IN')
+                };
+                const transactions = [...(currentUser.transactions || [])];
+                transactions.push(tx);
+                await saveUserFields({ transactions: JSON.stringify(transactions) });
+
+                currentUser.buySellWallet = newSenderWallet;
+                currentUser.transactions = transactions;
+
+                document.getElementById('transferToUserEmail').value = '';
+                document.getElementById('transferToUserAmount').value = '';
+                updateUI();
+                showToast(`✅ ${amount} CX ${targetUser.email} के User Panel में भेज दिए गए।`, 'success');
+            } catch (e) {
+                showToast('ट्रांसफर में त्रुटि!', 'error');
+            }
+        }
+
+        async function depositToTradeWallet() {
+            if (!currentUser) { showToast("❌ पहले लॉगिन करें।", 'error'); return; }
+            const amount = parseFloat(document.getElementById('depositToTradeAmount').value);
+
+            if (!amount || amount <= 0) { showToast("❌ सही कॉइन संख्या दर्ज करें।", 'error'); return; }
+            if (amount > parseFloat(currentUser.coins || 0)) { showToast("⚠️ आपके User Panel में इतने कॉइन नहीं हैं!", 'error'); return; }
+
+            try {
+                const newCoins = parseFloat(currentUser.coins || 0) - amount;
+                const newWallet = parseFloat(currentUser.buySellWallet || 0) + amount;
+
+                await saveUserFields({ coins: newCoins, buySellWallet: newWallet });
+
+                const tx = {
+                    type: 'deposit',
+                    amount: amount,
+                    fromEmail: currentUser.email,
+                    toEmail: currentUser.email,
+                    status: 'completed',
+                    dateTime: new Date().toLocaleString('hi-IN')
+                };
+                const transactions = [...(currentUser.transactions || [])];
+                transactions.push(tx);
+                await saveUserFields({ transactions: JSON.stringify(transactions) });
+
+                currentUser.coins = newCoins;
+                currentUser.buySellWallet = newWallet;
+                currentUser.transactions = transactions;
+
+                document.getElementById('depositToTradeAmount').value = '';
+                updateUI();
+                showToast(`✅ ${amount} CX User Panel से Buy/Sell Wallet में जमा किए गए।`, 'success');
+            } catch (e) {
+                showToast('डिपॉजिट में त्रुटि!', 'error');
+            }
+        }
+
+        async function transferCoinsToOther() {
+            if (!currentUser) { showToast("❌ पहले लॉगिन करें।", 'error'); return; }
+            const identifier = document.getElementById('transferToOtherEmail').value.trim();
+            const amount = parseFloat(document.getElementById('transferToOtherAmount').value);
+
+            if (!identifier) { showToast("❌ ईमेल या CoinX ID दर्ज करें।", 'error'); return; }
+            if (!amount || amount <= 0) { showToast("❌ सही कॉइन संख्या दर्ज करें।", 'error'); return; }
+            if (amount > parseFloat(currentUser.buySellWallet || 0)) { showToast("⚠️ आपके पास इतने कॉइन नहीं हैं!", 'error'); return; }
+
+            try {
+                const res = await databases.listDocuments(DATABASE_ID, USERS_COLLECTION_ID, [
+                    Query.or([
+                        Query.equal('email', identifier),
+                        Query.equal('coinxId', identifier)
+                    ])
+                ]);
+                if (res.documents.length === 0) { showToast("❌ यूजर नहीं मिला!", 'error'); return; }
+                const targetUser = res.documents[0];
+                if (targetUser.$id === currentUser.$id) { showToast("❌ खुद को ट्रांसफर नहीं कर सकते!", 'error'); return; }
+
+                const newSenderWallet = parseFloat(currentUser.buySellWallet || 0) - amount;
+                const newReceiverWallet = parseFloat(targetUser.buySellWallet || 0) + amount;
+
+                await databases.updateDocument(DATABASE_ID, USERS_COLLECTION_ID, currentUser.$id, {
+                    buySellWallet: newSenderWallet
+                });
+                await databases.updateDocument(DATABASE_ID, USERS_COLLECTION_ID, targetUser.$id, {
+                    buySellWallet: newReceiverWallet
+                });
+
+                const tx = {
+                    type: 'transfer_trade',
+                    amount: amount,
+                    toEmail: targetUser.email,
+                    fromEmail: currentUser.email,
+                    toCoinXId: targetUser.coinxId,
+                    fromCoinXId: currentUser.coinxId,
+                    status: 'completed',
+                    dateTime: new Date().toLocaleString('hi-IN')
+                };
+                const transactions = [...(currentUser.transactions || [])];
+                transactions.push(tx);
+                await saveUserFields({ transactions: JSON.stringify(transactions) });
+
+                currentUser.buySellWallet = newSenderWallet;
+                currentUser.transactions = transactions;
+
+                document.getElementById('transferToOtherEmail').value = '';
+                document.getElementById('transferToOtherAmount').value = '';
+                updateUI();
+                showToast(`✅ ${amount} CX ${targetUser.email} के Buy/Sell Wallet में भेज दिए गए।`, 'success');
+            } catch (e) {
+                showToast('ट्रांसफर में त्रुटि!', 'error');
+            }
+        }
+
+        // ============================================================
+        // HISTORY
+        // ============================================================
+        function filterHistory(type) {
+            historyFilter = type;
+            document.querySelectorAll('.filter-tabs button').forEach(b => b.classList.remove('active'));
+            if (event && event.target) event.target.classList.add('active');
+            renderHistory();
+        }
+
+        function renderHistory() {
+            const container = document.getElementById('historyList');
+            container.innerHTML = '';
+            let transactions = currentUser?.transactions || [];
+
+            if (historyFilter !== 'all') {
+                transactions = transactions.filter(t => t.type === historyFilter);
+            }
+
+            if (transactions.length === 0) {
+                container.innerHTML = `<p class="text-[10px] text-slate-500 text-center py-4">कोई लेनदेन नहीं है</p>`;
+                return;
+            }
+
+            transactions.reverse().forEach(t => {
+                const div = document.createElement('div');
+                div.className = 'history-item';
+                let typeClass = 'type-transfer',
+                    icon = 'fa-solid fa-exchange',
+                    typeLabel = 'Transfer';
+                if (t.type === 'buy') { typeClass = 'type-buy';
+                    icon = 'fa-solid fa-arrow-down';
+                    typeLabel = '🟢 Buy'; } else if (t.type === 'sell') { typeClass = 'type-sell';
+                    icon = 'fa-solid fa-arrow-up';
+                    typeLabel = '🔴 Sell'; } else if (t.type === 'withdrawal') { typeClass = 'type-withdrawal';
+                    icon = 'fa-solid fa-arrow-up';
+                    typeLabel = '🟡 Withdrawal'; } else if (t.type === 'admin') { typeClass = 'type-admin';
+                    icon = 'fa-solid fa-headset';
+                    typeLabel = '📞 Support'; } else if (t.type === 'deposit') { typeClass = 'type-deposit';
+                    icon = 'fa-solid fa-arrow-right';
+                    typeLabel = '🔵 Deposit'; } else if (t.type === 'transfer_trade') { typeClass = 'type-transfer';
+                    icon = 'fa-solid fa-exchange';
+                    typeLabel = '🔄 Trade Transfer'; }
+
+                let fromDisplay = t.fromEmail ? `<span>⬅️ From: <span class="text-blue-400">${t.fromEmail}</span></span>` : '';
+                let toDisplay = t.toEmail ? `<span>➡️ To: <span class="text-amber-400">${t.toEmail}</span></span>` : '';
+
+                div.innerHTML = `
+                    <div class="flex justify-between items-center">
+                        <div>
+                            <span class="font-bold ${typeClass}"><i class="${icon} mr-1"></i> ${typeLabel}</span>
+                            <span class="text-xs font-bold text-white ml-2">${t.amount || t.coins || 0} CX</span>
+                        </div>
+                        <span class="text-[10px] text-slate-500">${t.dateTime || ''}</span>
+                    </div>
+                    <div class="text-[9px] text-slate-500 flex justify-between flex-wrap gap-1">
+                        ${toDisplay}
+                        ${fromDisplay}
+                        ${t.inr ? `<span>₹${t.inr}</span>` : ''}
+                        ${t.address ? `<span>UPI: ${t.address}</span>` : ''}
+                    </div>
+                    <div class="text-[8px] flex justify-between">
+                        <span class="text-slate-400">${t.status || 'completed'}</span>
+                    </div>
+                `;
+                container.appendChild(div);
+            });
+        }
+
+        // ============================================================
+        // INIT
+        // ============================================================
+        window.onload = async function() {
+            try {
+                await loadUser();
+                if (currentUser && !currentUser.isBlocked) {
+                    document.getElementById('loginPage').classList.add('hidden');
+                    document.getElementById('dashboardPage').classList.remove('hidden');
+                    document.getElementById('bottomNavBar').classList.remove('hidden');
+                    updateUI();
+                    renderHistory();
+                    updateMaxSell();
+                    updateMaxTransfer();
+                    updateMaxDepositToTrade();
+                    updateMaxTransferOther();
+                    switchTab('buy');
+                } else {
+                    document.getElementById('loginPage').classList.remove('hidden');
+                }
+            } catch (e) {
+                document.getElementById('loginPage').classList.remove('hidden');
+            }
+        };
+    </script>
+</body>
+</html>
