@@ -10,7 +10,6 @@
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet" />
     <script src="https://cdn.jsdelivr.net/npm/appwrite@16.0.2">
     </script>
-    <!-- QR Code Library for generating SC QR -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js">
     </script>
     <style>
@@ -21,15 +20,15 @@
         }
         body {
             font-family: 'Poppins', sans-serif;
-            background: #ffffff;
+            background: #0d0a12;
             overflow-x: hidden;
             user-select: none;
         }
         .pink-glow {
-            box-shadow: 0 0 30px rgba(236, 72, 153, 0.15), 0 0 60px rgba(236, 72, 153, 0.05);
+            box-shadow: 0 0 30px rgba(236, 72, 153, 0.45), 0 0 60px rgba(236, 72, 153, 0.15);
         }
         .pink-glow-sm {
-            box-shadow: 0 0 15px rgba(236, 72, 153, 0.12);
+            box-shadow: 0 0 20px rgba(236, 72, 153, 0.3);
         }
         .pink-bg-gradient {
             background: linear-gradient(145deg, #ec4899, #db2777, #be185d);
@@ -41,13 +40,13 @@
             background-clip: text;
         }
         .glass-pink {
-            background: rgba(255, 255, 255, 0.85);
-            backdrop-filter: blur(12px);
+            background: rgba(18, 12, 28, 0.75);
+            backdrop-filter: blur(16px);
             border: 1px solid rgba(236, 72, 153, 0.2);
         }
         .glass-pink-dark {
-            background: rgba(255, 255, 255, 0.95);
-            backdrop-filter: blur(12px);
+            background: rgba(10, 6, 18, 0.85);
+            backdrop-filter: blur(20px);
             border: 1px solid rgba(236, 72, 153, 0.15);
         }
         .btn-pink {
@@ -56,11 +55,11 @@
             font-weight: 600;
             border: none;
             transition: all 0.25s ease;
-            box-shadow: 0 4px 20px rgba(236, 72, 153, 0.25);
+            box-shadow: 0 4px 20px rgba(236, 72, 153, 0.35);
         }
         .btn-pink:hover {
-            transform: scale(1.02) translateY(-2px);
-            box-shadow: 0 8px 35px rgba(236, 72, 153, 0.35);
+            transform: scale(1.03) translateY(-2px);
+            box-shadow: 0 8px 35px rgba(236, 72, 153, 0.5);
         }
         .btn-pink:active {
             transform: scale(0.97);
@@ -82,7 +81,7 @@
         }
         .card-3d:hover {
             transform: perspective(1000px) rotateX(1.5deg) rotateY(2deg) translateY(-4px);
-            box-shadow: 0 20px 50px rgba(236, 72, 153, 0.12);
+            box-shadow: 0 20px 50px rgba(236, 72, 153, 0.25);
         }
         .hidden {
             display: none !important;
@@ -91,7 +90,7 @@
             width: 5px;
         }
         ::-webkit-scrollbar-track {
-            background: #f3e8f5;
+            background: #1a1225;
         }
         ::-webkit-scrollbar-thumb {
             background: #ec4899;
@@ -104,21 +103,20 @@
             right: 0;
             max-width: 440px;
             margin: 0 auto;
-            background: rgba(255, 255, 255, 0.95);
-            backdrop-filter: blur(16px);
-            border-top: 1px solid rgba(236, 72, 153, 0.15);
+            background: rgba(10, 6, 18, 0.92);
+            backdrop-filter: blur(20px);
+            border-top: 1px solid rgba(236, 72, 153, 0.2);
             padding: 8px 0 12px;
             display: flex;
             justify-content: space-around;
             z-index: 50;
             border-radius: 24px 24px 0 0;
-            box-shadow: 0 -4px 30px rgba(0, 0, 0, 0.04);
         }
         .bottom-nav button {
             display: flex;
             flex-direction: column;
             align-items: center;
-            color: #a78bbf;
+            color: #6b4a7a;
             font-size: 9px;
             transition: all 0.3s;
             background: none;
@@ -147,8 +145,8 @@
             box-shadow: 0 0 12px rgba(236, 72, 153, 0.6);
         }
         .sc-address-box {
-            background: rgba(255, 255, 255, 0.7);
-            border: 1px solid rgba(236, 72, 153, 0.2);
+            background: rgba(18, 12, 28, 0.7);
+            border: 1px solid rgba(236, 72, 153, 0.25);
             border-radius: 14px;
             padding: 14px 18px;
             display: flex;
@@ -165,17 +163,17 @@
             font-size: 13px;
             font-weight: 600;
             font-family: monospace;
-            color: #ec4899;
+            color: #f472b6;
             word-break: break-all;
         }
         .id-box {
-            background: rgba(255, 255, 255, 0.7);
+            background: rgba(18, 12, 28, 0.7);
             border-radius: 14px;
             padding: 12px 16px;
             display: flex;
             align-items: center;
             justify-content: space-between;
-            border: 1px solid rgba(236, 72, 153, 0.12);
+            border: 1px solid rgba(236, 72, 153, 0.15);
             backdrop-filter: blur(6px);
         }
         .id-box .id-label {
@@ -190,13 +188,13 @@
             word-break: break-all;
         }
         .id-box-pink {
-            border: 1px solid rgba(236, 72, 153, 0.3);
+            border: 1px solid rgba(236, 72, 153, 0.4);
         }
         .id-box-pink .id-value {
             color: #ec4899;
         }
         .id-box-email {
-            border: 1px solid rgba(16, 185, 129, 0.3);
+            border: 1px solid rgba(16, 185, 129, 0.4);
         }
         .id-box-email .id-value {
             color: #34d399;
@@ -208,13 +206,13 @@
             transform: translateX(-50%) translateY(-20px);
             max-width: 400px;
             width: 92%;
-            background: rgba(255, 255, 255, 0.95);
+            background: rgba(18, 12, 28, 0.92);
             backdrop-filter: blur(20px);
-            border: 1px solid rgba(236, 72, 153, 0.2);
-            color: #5a2d6a;
+            border: 1px solid rgba(236, 72, 153, 0.3);
+            color: #f9a8d4;
             border-radius: 16px;
             padding: 14px 20px;
-            box-shadow: 0 12px 60px rgba(0, 0, 0, 0.08);
+            box-shadow: 0 12px 60px rgba(0, 0, 0, 0.7);
             z-index: 999;
             font-size: 13px;
             display: flex;
@@ -230,7 +228,7 @@
             transform: translateX(-50%) translateY(0);
         }
         .history-item {
-            background: rgba(255, 255, 255, 0.6);
+            background: rgba(18, 12, 28, 0.6);
             border: 1px solid rgba(236, 72, 153, 0.12);
             border-radius: 12px;
             padding: 12px 14px;
@@ -264,7 +262,7 @@
             height: 220px;
             overflow: hidden;
             border-radius: 18px;
-            box-shadow: 0 8px 40px rgba(0, 0, 0, 0.04);
+            box-shadow: 0 8px 40px rgba(0, 0, 0, 0.5);
             margin-bottom: 12px;
         }
         .slider-track {
@@ -290,7 +288,7 @@
             left: 0;
             right: 0;
             padding: 18px 16px 14px;
-            background: linear-gradient(transparent, rgba(0, 0, 0, 0.85));
+            background: linear-gradient(transparent, rgba(0, 0, 0, 0.88));
             color: #fff;
             text-align: center;
         }
@@ -304,7 +302,7 @@
             font-size: 14px;
             font-weight: 700;
             color: #f9a8d4;
-            text-shadow: 0 0 30px rgba(236, 72, 153, 0.3);
+            text-shadow: 0 0 30px rgba(236, 72, 153, 0.4);
             line-height: 1.5;
             display: block;
         }
@@ -453,14 +451,14 @@
             background: #ec4899;
             width: 22px;
             border-radius: 10px;
-            box-shadow: 0 0 16px rgba(236, 72, 153, 0.4);
+            box-shadow: 0 0 16px rgba(236, 72, 153, 0.5);
         }
         .qr-box {
             background: #fff;
             padding: 12px;
             border-radius: 16px;
             display: inline-block;
-            box-shadow: 0 0 30px rgba(236, 72, 153, 0.08);
+            box-shadow: 0 0 30px rgba(236, 72, 153, 0.15);
         }
         .qr-box canvas,
         .qr-box img {
@@ -470,10 +468,10 @@
         .filter-tabs {
             display: flex;
             gap: 3px;
-            background: rgba(255, 255, 255, 0.6);
+            background: rgba(18, 12, 28, 0.6);
             padding: 3px;
             border-radius: 12px;
-            border: 1px solid rgba(236, 72, 153, 0.12);
+            border: 1px solid rgba(236, 72, 153, 0.15);
             flex-wrap: wrap;
         }
         .filter-tabs button {
@@ -492,14 +490,14 @@
         .filter-tabs button.active {
             background: #ec4899;
             color: #fff;
-            box-shadow: 0 0 20px rgba(236, 72, 153, 0.2);
+            box-shadow: 0 0 20px rgba(236, 72, 153, 0.3);
         }
         .filter-tabs button:hover:not(.active) {
-            color: #6b4a7a;
+            color: #d4b0e0;
         }
         .gift-card {
-            background: linear-gradient(145deg, rgba(255, 255, 255, 0.9), rgba(245, 240, 250, 0.9));
-            border: 1px solid rgba(236, 72, 153, 0.15);
+            background: linear-gradient(145deg, rgba(18, 12, 28, 0.9), rgba(30, 18, 40, 0.9));
+            border: 1px solid rgba(236, 72, 153, 0.2);
             border-radius: 16px;
             padding: 16px;
             text-align: center;
@@ -507,7 +505,7 @@
         }
         .gift-card:hover {
             transform: scale(1.02);
-            border-color: rgba(236, 72, 153, 0.4);
+            border-color: rgba(236, 72, 153, 0.5);
         }
         .gift-card .gift-icon {
             font-size: 36px;
@@ -517,7 +515,7 @@
         .gift-card .gift-title {
             font-size: 13px;
             font-weight: 700;
-            color: #5a2d6a;
+            color: #f9a8d4;
         }
         .gift-card .gift-desc {
             font-size: 10px;
@@ -567,40 +565,118 @@
         }
         .butterfly-bg .bfly {
             position: absolute;
-            font-size: 24px;
-            opacity: 0.4;
+            font-size: 22px;
+            opacity: 0.35;
             animation: floatButterfly linear infinite;
-            filter: drop-shadow(0 0 8px rgba(236, 72, 153, 0.2));
+            filter: drop-shadow(0 0 8px rgba(236, 72, 153, 0.3));
             will-change: transform;
         }
         @keyframes floatButterfly {
             0% {
                 transform: translate(0, 0) rotate(0deg) scale(0.8);
-                opacity: 0.2;
+                opacity: 0.15;
             }
             25% {
                 transform: translate(80px, -120px) rotate(12deg) scale(1.1);
-                opacity: 0.6;
+                opacity: 0.5;
             }
             50% {
                 transform: translate(-60px, -220px) rotate(-8deg) scale(0.9);
-                opacity: 0.7;
+                opacity: 0.6;
             }
             75% {
                 transform: translate(100px, -340px) rotate(15deg) scale(1.2);
-                opacity: 0.5;
+                opacity: 0.4;
             }
             100% {
                 transform: translate(-20px, -480px) rotate(-5deg) scale(0.7);
-                opacity: 0.15;
+                opacity: 0.1;
             }
         }
-        /* QR Action Modal for Buy/Sell – now shows image from link */
+        .qr-scanner-overlay {
+            position: fixed;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.9);
+            backdrop-filter: blur(12px);
+            z-index: 100;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-direction: column;
+            padding: 20px;
+        }
+        .qr-scanner-overlay .scanner-box {
+            background: #1a1228;
+            border: 2px solid rgba(236, 72, 153, 0.3);
+            border-radius: 20px;
+            padding: 20px;
+            max-width: 380px;
+            width: 100%;
+            text-align: center;
+        }
+        .qr-scanner-overlay .scanner-box #reader {
+            width: 100%;
+            border-radius: 12px;
+            overflow: hidden;
+            margin: 10px 0;
+        }
+        .qr-scanner-overlay .scanner-box input {
+            width: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            border: 1px solid rgba(236, 72, 153, 0.2);
+            border-radius: 12px;
+            padding: 12px 16px;
+            color: #fff;
+            font-size: 13px;
+            font-family: monospace;
+            text-align: center;
+            margin: 5px 0;
+            outline: none;
+        }
+        .qr-scanner-overlay .scanner-box input:focus {
+            border-color: #ec4899;
+        }
+        .qr-scanner-overlay .scanner-box .scan-btn {
+            background: #ec4899;
+            color: #fff;
+            border: none;
+            padding: 10px 24px;
+            border-radius: 12px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            margin: 4px;
+        }
+        .qr-scanner-overlay .scanner-box .scan-btn:hover {
+            transform: scale(1.03);
+        }
+        .qr-scanner-overlay .scanner-box .scan-btn-secondary {
+            background: rgba(255, 255, 255, 0.1);
+            color: #fff;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+        .qr-scanner-overlay .close-scanner {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            background: rgba(236, 72, 153, 0.2);
+            border: none;
+            color: #fff;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            font-size: 20px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        .qr-scanner-overlay .close-scanner:hover {
+            background: rgba(236, 72, 153, 0.4);
+        }
         .qr-action-modal {
             position: fixed;
             inset: 0;
-            background: rgba(0, 0, 0, 0.6);
-            backdrop-filter: blur(8px);
+            background: rgba(0, 0, 0, 0.85);
+            backdrop-filter: blur(12px);
             z-index: 100;
             display: flex;
             align-items: center;
@@ -609,14 +685,13 @@
             padding: 20px;
         }
         .qr-action-modal .modal-box {
-            background: #ffffff;
-            border: 1px solid rgba(236, 72, 153, 0.2);
+            background: #1a1228;
+            border: 2px solid rgba(236, 72, 153, 0.3);
             border-radius: 24px;
             padding: 24px;
             max-width: 400px;
             width: 100%;
             text-align: center;
-            box-shadow: 0 30px 80px rgba(0, 0, 0, 0.15);
         }
         .qr-action-modal .modal-box .qr-container {
             background: #fff;
@@ -629,9 +704,10 @@
             width: 200px;
             height: 200px;
             object-fit: contain;
+            border-radius: 8px;
         }
         .qr-action-modal .modal-box .instruction-text {
-            color: #3a1a4a;
+            color: #f9a8d4;
             font-size: 13px;
             line-height: 1.7;
             margin: 12px 0;
@@ -642,104 +718,24 @@
             font-weight: 700;
         }
         .qr-action-modal .modal-box .close-btn {
-            background: rgba(236, 72, 153, 0.12);
+            background: rgba(236, 72, 153, 0.2);
             border: none;
-            color: #5a2d6a;
+            color: #fff;
             padding: 8px 24px;
             border-radius: 30px;
             font-size: 13px;
             cursor: pointer;
             transition: all 0.3s;
             margin-top: 8px;
-            font-weight: 600;
         }
         .qr-action-modal .modal-box .close-btn:hover {
-            background: rgba(236, 72, 153, 0.25);
+            background: rgba(236, 72, 153, 0.4);
         }
         .qr-action-modal .modal-box .modal-title {
             font-size: 18px;
             font-weight: 700;
             color: #ec4899;
             margin-bottom: 4px;
-        }
-        .scanner-box input {
-            background: rgba(255, 255, 255, 0.8);
-            border: 1px solid rgba(236, 72, 153, 0.2);
-            border-radius: 12px;
-            padding: 12px 16px;
-            color: #1a1a2e;
-            font-size: 13px;
-            font-family: monospace;
-            text-align: center;
-            margin: 5px 0;
-            outline: none;
-            width: 100%;
-        }
-        .scanner-box input:focus {
-            border-color: #ec4899;
-        }
-        .scanner-box .scan-btn {
-            background: #ec4899;
-            color: #fff;
-            border: none;
-            padding: 10px 24px;
-            border-radius: 12px;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.3s;
-            margin: 4px;
-        }
-        .scanner-box .scan-btn:hover {
-            transform: scale(1.03);
-        }
-        .scanner-box .scan-btn-secondary {
-            background: rgba(0, 0, 0, 0.05);
-            color: #3a1a4a;
-            border: 1px solid rgba(0, 0, 0, 0.08);
-        }
-        .qr-scanner-overlay {
-            position: fixed;
-            inset: 0;
-            background: rgba(0, 0, 0, 0.6);
-            backdrop-filter: blur(8px);
-            z-index: 100;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            flex-direction: column;
-            padding: 20px;
-        }
-        .qr-scanner-overlay .scanner-box {
-            background: #ffffff;
-            border: 1px solid rgba(236, 72, 153, 0.2);
-            border-radius: 24px;
-            padding: 20px;
-            max-width: 380px;
-            width: 100%;
-            text-align: center;
-        }
-        .qr-scanner-overlay .close-scanner {
-            position: absolute;
-            top: 20px;
-            right: 20px;
-            background: rgba(0, 0, 0, 0.1);
-            border: none;
-            color: #3a1a4a;
-            width: 40px;
-            height: 40px;
-            border-radius: 50%;
-            font-size: 20px;
-            cursor: pointer;
-            transition: all 0.3s;
-        }
-        .qr-scanner-overlay .close-scanner:hover {
-            background: rgba(0, 0, 0, 0.2);
-        }
-        #reader {
-            width: 100%;
-            border-radius: 12px;
-            overflow: hidden;
-            margin: 10px 0;
         }
     </style>
 </head>
@@ -752,16 +748,16 @@
     <div id="appContainer" class="w-full max-w-md mx-auto relative z-10">
 
         <!-- HEADER -->
-        <header id="mainHeader" class="w-full glass-pink-dark py-3 px-4 flex items-center justify-between sticky top-0 z-40 shadow-sm backdrop-blur-2xl">
+        <header id="mainHeader" class="w-full glass-pink-dark py-3 px-4 flex items-center justify-between sticky top-0 z-40 shadow-2xl user-header backdrop-blur-2xl">
             <div class="flex items-center gap-3">
                 <div class="w-10 h-10 rounded-full pink-bg-gradient flex items-center justify-center text-white font-extrabold text-lg shadow-lg pink-glow-sm border border-pink-400/50">CX</div>
                 <div>
                     <h1 id="headerTitle" class="font-extrabold text-md tracking-wider leading-none pink-text-gradient">COINX WALLET</h1>
-                    <span id="headerSubtitle" class="text-[9px] text-pink-500/60">स्मार्ट कॉन्ट्रैक्ट वॉलेट</span>
+                    <span id="headerSubtitle" class="text-[9px] text-pink-300/70">स्मार्ट कॉन्ट्रैक्ट वॉलेट</span>
                 </div>
             </div>
             <div class="flex items-center gap-2">
-                <span id="headerBadge" class="text-[9px] bg-pink-100 text-pink-700 border border-pink-200 px-3 py-0.5 rounded-full font-bold">यूज़र</span>
+                <span id="headerBadge" class="text-[9px] bg-pink-500/15 text-pink-300 border border-pink-500/25 px-3 py-0.5 rounded-full font-bold">यूज़र</span>
             </div>
         </header>
 
@@ -773,13 +769,13 @@
                 <div class="text-center space-y-2 py-6">
                     <div class="w-20 h-20 rounded-full pink-bg-gradient flex items-center justify-center text-white font-extrabold text-3xl mx-auto pink-glow border-2 border-pink-400/50 shadow-2xl">CX</div>
                     <h2 class="text-2xl font-extrabold pink-text-gradient tracking-wide mt-2">लॉगिन करें</h2>
-                    <p class="text-xs text-pink-500/60">अपने वॉलेट में प्रवेश करें</p>
+                    <p class="text-xs text-pink-300/60">अपने वॉलेट में प्रवेश करें</p>
                 </div>
-                <div class="glass-pink p-6 rounded-3xl border-pink-500/20 space-y-4 shadow-xl">
-                    <div><label class="block text-xs font-semibold text-pink-700/70 mb-1.5"><i class="fa-solid fa-envelope mr-1 text-pink-400"></i> ईमेल आईडी</label><input type="email" id="loginUserId" placeholder="अपनी ईमेल आईडी दर्ज करें" class="w-full bg-white/80 border border-pink-200 rounded-2xl py-3 px-4 text-sm focus:outline-none focus:border-pink-400 text-gray-800 transition-all"></div>
-                    <div><label class="block text-xs font-semibold text-pink-700/70 mb-1.5"><i class="fa-solid fa-lock mr-1 text-pink-400"></i> पासवर्ड</label><input type="password" id="loginPassword" placeholder="अपना पासवर्ड डालें" class="w-full bg-white/80 border border-pink-200 rounded-2xl py-3 px-4 text-sm focus:outline-none focus:border-pink-400 text-gray-800 transition-all"></div>
-                    <button id="btn-login" onclick="handleLogin(this)" class="w-full btn-pink py-3.5 rounded-2xl text-sm flex items-center justify-center gap-2 shadow-xl"><span>लॉगिन करें</span> <i class="fa-solid fa-right-to-bracket"></i></button>
-                    <p class="text-center text-xs text-pink-500/50 mt-2">नया अकाउंट? <button onclick="showPage('registrationPage')" class="text-pink-500 font-semibold underline hover:text-pink-700">रजिस्टर करें</button></p>
+                <div class="glass-pink p-6 rounded-3xl border-pink-500/20 space-y-4 shadow-2xl">
+                    <div><label class="block text-xs font-semibold text-pink-300/70 mb-1.5"><i class="fa-solid fa-envelope mr-1 text-pink-400"></i> ईमेल आईडी</label><input type="email" id="loginUserId" placeholder="अपनी ईमेल आईडी दर्ज करें" class="w-full bg-black/40 border border-pink-500/20 rounded-2xl py-3 px-4 text-sm focus:outline-none focus:border-pink-400 text-white transition-all"></div>
+                    <div><label class="block text-xs font-semibold text-pink-300/70 mb-1.5"><i class="fa-solid fa-lock mr-1 text-pink-400"></i> पासवर्ड</label><input type="password" id="loginPassword" placeholder="अपना पासवर्ड डालें" class="w-full bg-black/40 border border-pink-500/20 rounded-2xl py-3 px-4 text-sm focus:outline-none focus:border-pink-400 text-white transition-all"></div>
+                    <button id="btn-login" onclick="handleLogin(this)" class="w-full btn-pink py-3.5 rounded-2xl text-sm flex items-center justify-center gap-2 shadow-2xl"><span>लॉगिन करें</span> <i class="fa-solid fa-right-to-bracket"></i></button>
+                    <p class="text-center text-xs text-pink-300/50 mt-2">नया अकाउंट? <button onclick="showPage('registrationPage')" class="text-pink-400 font-semibold underline hover:text-pink-300">रजिस्टर करें</button></p>
                 </div>
             </section>
 
@@ -788,14 +784,14 @@
                 <div class="text-center space-y-2 py-6">
                     <div class="w-20 h-20 rounded-full pink-bg-gradient flex items-center justify-center text-white font-extrabold text-3xl mx-auto pink-glow border-2 border-pink-400/50 shadow-2xl">CX</div>
                     <h2 class="text-2xl font-extrabold pink-text-gradient tracking-wide mt-2">रजिस्ट्रेशन करें</h2>
-                    <p class="text-xs text-pink-500/60">CoinX Wallet में आपका स्वागत है</p>
+                    <p class="text-xs text-pink-300/60">CoinX Wallet में आपका स्वागत है</p>
                 </div>
-                <div class="glass-pink p-6 rounded-3xl border-pink-500/20 space-y-4 shadow-xl">
-                    <div><label class="block text-xs font-semibold text-pink-700/70 mb-1.5"><i class="fa-solid fa-user mr-1 text-pink-400"></i> पूरा नाम</label><input type="text" id="regName" placeholder="अपना नाम दर्ज करें" class="w-full bg-white/80 border border-pink-200 rounded-2xl py-3 px-4 text-sm focus:outline-none focus:border-pink-400 text-gray-800 transition-all"></div>
-                    <div><label class="block text-xs font-semibold text-pink-700/70 mb-1.5"><i class="fa-solid fa-envelope mr-1 text-pink-400"></i> ईमेल आईडी</label><input type="email" id="regEmail" placeholder="अपनी ईमेल आईडी दर्ज करें" class="w-full bg-white/80 border border-pink-200 rounded-2xl py-3 px-4 text-sm focus:outline-none focus:border-pink-400 text-gray-800 transition-all"></div>
-                    <div><label class="block text-xs font-semibold text-pink-700/70 mb-1.5"><i class="fa-solid fa-phone mr-1 text-pink-400"></i> मोबाइल नंबर</label><input type="tel" id="regPhone" placeholder="अपना 10 अंकों का मोबाइल नंबर डालें" class="w-full bg-white/80 border border-pink-200 rounded-2xl py-3 px-4 text-sm focus:outline-none focus:border-pink-400 text-gray-800 transition-all"></div>
-                    <button id="btn-register" onclick="handleRegistration(this)" class="w-full btn-pink py-3.5 rounded-2xl text-sm flex items-center justify-center gap-2 shadow-xl"><span>सबमिट करें</span> <i class="fa-solid fa-arrow-right-to-bracket"></i></button>
-                    <p class="text-center text-xs text-pink-500/50 mt-2">पहले से अकाउंट है? <button onclick="showPage('loginPage')" class="text-pink-500 font-semibold underline hover:text-pink-700">लॉगिन करें</button></p>
+                <div class="glass-pink p-6 rounded-3xl border-pink-500/20 space-y-4 shadow-2xl">
+                    <div><label class="block text-xs font-semibold text-pink-300/70 mb-1.5"><i class="fa-solid fa-user mr-1 text-pink-400"></i> पूरा नाम</label><input type="text" id="regName" placeholder="अपना नाम दर्ज करें" class="w-full bg-black/40 border border-pink-500/20 rounded-2xl py-3 px-4 text-sm focus:outline-none focus:border-pink-400 text-white transition-all"></div>
+                    <div><label class="block text-xs font-semibold text-pink-300/70 mb-1.5"><i class="fa-solid fa-envelope mr-1 text-pink-400"></i> ईमेल आईडी</label><input type="email" id="regEmail" placeholder="अपनी ईमेल आईडी दर्ज करें" class="w-full bg-black/40 border border-pink-500/20 rounded-2xl py-3 px-4 text-sm focus:outline-none focus:border-pink-400 text-white transition-all"></div>
+                    <div><label class="block text-xs font-semibold text-pink-300/70 mb-1.5"><i class="fa-solid fa-phone mr-1 text-pink-400"></i> मोबाइल नंबर</label><input type="tel" id="regPhone" placeholder="अपना 10 अंकों का मोबाइल नंबर डालें" class="w-full bg-black/40 border border-pink-500/20 rounded-2xl py-3 px-4 text-sm focus:outline-none focus:border-pink-400 text-white transition-all"></div>
+                    <button id="btn-register" onclick="handleRegistration(this)" class="w-full btn-pink py-3.5 rounded-2xl text-sm flex items-center justify-center gap-2 shadow-2xl"><span>सबमिट करें</span> <i class="fa-solid fa-arrow-right-to-bracket"></i></button>
+                    <p class="text-center text-xs text-pink-300/50 mt-2">पहले से अकाउंट है? <button onclick="showPage('loginPage')" class="text-pink-400 font-semibold underline hover:text-pink-300">लॉगिन करें</button></p>
                 </div>
             </section>
 
@@ -813,134 +809,126 @@
                 <!-- Price Cards -->
                 <div class="grid grid-cols-2 gap-3">
                     <div class="glass-pink p-3 rounded-xl border-pink-500/20 text-center card-3d">
-                        <span class="text-[9px] text-pink-500/60 block">🟢 खरीद मूल्य</span>
-                        <span class="text-xl font-extrabold text-green-500">₹1</span>
-                        <span class="text-[9px] text-pink-400/50 block">= 1 CX</span>
+                        <span class="text-[9px] text-pink-300/60 block">🟢 खरीद मूल्य</span>
+                        <span class="text-xl font-extrabold text-green-400">₹1</span>
+                        <span class="text-[9px] text-pink-300/40 block">= 1 CX</span>
                     </div>
                     <div class="glass-pink p-3 rounded-xl border-pink-500/20 text-center card-3d">
-                        <span class="text-[9px] text-pink-500/60 block">🔴 बिक्री मूल्य</span>
+                        <span class="text-[9px] text-pink-300/60 block">🔴 बिक्री मूल्य</span>
                         <span class="text-xl font-extrabold text-red-400">₹1</span>
-                        <span class="text-[9px] text-pink-400/50 block">= 1 CX</span>
+                        <span class="text-[9px] text-pink-300/40 block">= 1 CX</span>
                     </div>
                 </div>
 
                 <!-- Smart Contract Address + QR -->
                 <div class="glass-pink p-4 rounded-2xl border-pink-500/20">
                     <div class="flex items-center justify-between mb-3">
-                        <span class="text-[10px] text-pink-500/60"><i class="fa-solid fa-link mr-1 text-pink-400"></i> स्मार्ट कॉन्ट्रैक्ट</span>
-                        <button onclick="openQrScanner()" class="text-pink-500 hover:text-pink-700 btn-animate text-xs bg-pink-100 px-3 py-1 rounded-full border border-pink-200">
+                        <span class="text-[10px] text-pink-300/60"><i class="fa-solid fa-link mr-1 text-pink-400"></i> स्मार्ट कॉन्ट्रैक्ट</span>
+                        <button onclick="openQrScanner()" class="text-pink-400 hover:text-white btn-animate text-xs bg-pink-500/20 px-3 py-1 rounded-full border border-pink-500/30">
                             <i class="fa-solid fa-qrcode mr-1"></i> स्कैन करें
                         </button>
                     </div>
                     <div class="sc-address-box">
                         <div>
                             <span class="sc-address" id="userSmartContractAddress">0x000...000</span>
-                            <span class="text-[8px] text-pink-400/60 block mt-0.5">इस एड्रेस पर कॉइन भेजें</span>
+                            <span class="text-[8px] text-pink-400/50 block mt-0.5">इस एड्रेस पर कॉइन भेजें</span>
                         </div>
-                        <button onclick="copyToClipboard('userSmartContractAddress', '✅ स्मार्ट कॉन्ट्रैक्ट कॉपी हो गया!')" class="text-pink-500 hover:text-pink-700 shrink-0 btn-animate text-xs bg-pink-100 px-3 py-1.5 rounded-full border border-pink-200"><i class="fa-solid fa-copy mr-1"></i> कॉपी</button>
+                        <button onclick="copyToClipboard('userSmartContractAddress', '✅ स्मार्ट कॉन्ट्रैक्ट कॉपी हो गया!')" class="text-pink-400 hover:text-white shrink-0 btn-animate text-xs bg-pink-500/10 px-3 py-1.5 rounded-full border border-pink-500/20"><i class="fa-solid fa-copy mr-1"></i> कॉपी</button>
                     </div>
                     <div class="flex justify-center mt-3">
                         <div class="qr-box" id="qrCodeContainer"></div>
                     </div>
-                    <p class="text-[8px] text-pink-400/50 text-center mt-2">⬆️ स्मार्ट कॉन्ट्रैक्ट का QR — स्कैन करें और भेजें</p>
+                    <p class="text-[8px] text-pink-300/40 text-center mt-2">⬆️ स्मार्ट कॉन्ट्रैक्ट का QR — स्कैन करें और भेजें</p>
                 </div>
 
-                <!-- Balances -->
-                <div class="grid grid-cols-2 gap-3">
-                    <div class="glass-pink-dark p-3.5 rounded-2xl border-pink-500/15 card-3d">
-                        <span class="text-[10px] text-pink-500/60 block mb-1"><i class="fa-solid fa-wallet mr-1 text-green-500"></i> मुख्य बैलेंस</span>
-                        <span id="mainBalance" class="text-md font-bold text-green-500">0.00 CX</span>
-                    </div>
-                    <div class="glass-pink-dark p-3.5 rounded-2xl border-pink-500/15 card-3d">
-                        <span class="text-[10px] text-pink-500/60 block mb-1"><i class="fa-solid fa-arrow-right-arrow-left mr-1 text-pink-400"></i> Trade Wallet</span>
-                        <span id="tradeBalance" class="text-md font-bold text-pink-500">0.00 CX</span>
-                    </div>
+                <!-- Balances - Only Main Balance (Trade Wallet removed from dashboard) -->
+                <div class="glass-pink-dark p-3.5 rounded-2xl border-pink-500/15 card-3d">
+                    <span class="text-[10px] text-pink-300/60 block mb-1"><i class="fa-solid fa-wallet mr-1 text-green-400"></i> मुख्य बैलेंस</span>
+                    <span id="mainBalance" class="text-md font-bold text-green-400">0.00 CX</span>
                 </div>
 
                 <!-- Buy / Sell Section with QR modal -->
                 <div class="grid grid-cols-2 gap-3">
                     <div class="glass-pink p-4 rounded-2xl border-pink-500/20">
-                        <h4 class="text-xs font-bold text-green-500"><i class="fa-solid fa-arrow-down mr-1"></i> खरीदें (Buy)</h4>
-                        <p class="text-[9px] text-pink-400/60 mb-2">कॉइन खरीदने के लिए संख्या दर्ज करें</p>
-                        <input type="number" id="buyAmount" placeholder="कितने CX ?" class="w-full bg-white/80 border border-pink-200 rounded-xl py-2 px-3 text-xs focus:outline-none focus:border-pink-400 text-gray-800 font-mono mb-2">
-                        <button onclick="buyCoins()" class="w-full bg-green-500 hover:bg-green-600 text-white font-bold py-2 rounded-xl text-xs transition-all btn-animate flex items-center justify-center gap-1.5">
+                        <h4 class="text-xs font-bold text-green-400"><i class="fa-solid fa-arrow-down mr-1"></i> खरीदें (Buy)</h4>
+                        <p class="text-[9px] text-pink-300/40 mb-2">कॉइन खरीदने के लिए संख्या दर्ज करें</p>
+                        <input type="number" id="buyAmount" placeholder="कितने CX ?" class="w-full bg-black/40 border border-pink-500/20 rounded-xl py-2 px-3 text-xs focus:outline-none focus:border-pink-400 text-white font-mono mb-2">
+                        <button onclick="buyCoins()" class="w-full bg-green-500 hover:bg-green-600 text-slate-950 font-bold py-2 rounded-xl text-xs transition-all btn-animate flex items-center justify-center gap-1.5">
                             <i class="fa-solid fa-cart-plus mr-1"></i> खरीदें
                         </button>
                     </div>
                     <div class="glass-pink p-4 rounded-2xl border-pink-500/20">
                         <h4 class="text-xs font-bold text-red-400"><i class="fa-solid fa-arrow-up mr-1"></i> बेचें (Sell)</h4>
-                        <p class="text-[9px] text-pink-400/60 mb-2">कॉइन बेचने के लिए संख्या दर्ज करें</p>
-                        <input type="number" id="sellAmount" placeholder="कितने CX ?" class="w-full bg-white/80 border border-pink-200 rounded-xl py-2 px-3 text-xs focus:outline-none focus:border-pink-400 text-gray-800 font-mono mb-2">
-                        <button onclick="sellCoins()" class="w-full bg-red-400 hover:bg-red-500 text-white font-bold py-2 rounded-xl text-xs transition-all btn-animate flex items-center justify-center gap-1.5">
+                        <p class="text-[9px] text-pink-300/40 mb-2">कॉइन बेचने के लिए संख्या दर्ज करें</p>
+                        <input type="number" id="sellAmount" placeholder="कितने CX ?" class="w-full bg-black/40 border border-pink-500/20 rounded-xl py-2 px-3 text-xs focus:outline-none focus:border-pink-400 text-white font-mono mb-2">
+                        <button onclick="sellCoins()" class="w-full bg-red-500 hover:bg-red-600 text-white font-bold py-2 rounded-xl text-xs transition-all btn-animate flex items-center justify-center gap-1.5">
                             <i class="fa-solid fa-tag mr-1"></i> बेचें
                         </button>
                     </div>
                 </div>
 
-                <!-- Quick Actions -->
-                <div class="grid grid-cols-3 gap-2">
+                <!-- Quick Actions - Only two: भेजें and हिस्ट्री (removed the third icon) -->
+                <div class="grid grid-cols-2 gap-2">
                     <button onclick="switchNav('transfer')" class="glass-pink p-2.5 rounded-xl border-pink-500/20 text-center hover:border-pink-400 transition-all">
                         <i class="fa-solid fa-paper-plane text-pink-400 text-lg block mb-0.5"></i>
-                        <span class="text-[9px] text-pink-500/60">भेजें</span>
+                        <span class="text-[9px] text-pink-300/60">भेजें</span>
                     </button>
                     <button onclick="switchNav('history')" class="glass-pink p-2.5 rounded-xl border-pink-500/20 text-center hover:border-pink-400 transition-all">
                         <i class="fa-solid fa-clock-rotate-left text-pink-400 text-lg block mb-0.5"></i>
-                        <span class="text-[9px] text-pink-500/60">हिस्ट्री</span>
-                    </button>
-                    <button onclick="switchNav('profile')" class="glass-pink p-2.5 rounded-xl border-pink-500/20 text-center hover:border-pink-400 transition-all">
-                        <i class="fa-solid fa-user text-pink-400 text-lg block mb-0.5"></i>
-                        <span class="text-[9px] text-pink-500/60">प्रोफाइल</span>
+                        <span class="text-[9px] text-pink-300/60">हिस्ट्री</span>
                     </button>
                 </div>
             </section>
 
-            <!-- ======================== TRANSFER (Two functions) ======================== -->
+            <!-- ======================== TRANSFER ======================== -->
             <section id="transferPage" class="app-page w-full hidden space-y-4">
                 <div class="glass-pink p-4 rounded-2xl border-pink-500/20">
                     <h3 class="text-sm font-bold text-pink-400"><i class="fa-solid fa-exchange mr-1.5"></i> कॉइन ट्रांसफर</h3>
-                    <p class="text-[11px] text-pink-500/50">Trade Wallet से केवल दो तरीकों से भेजें</p>
+                    <p class="text-[11px] text-pink-300/50">स्मार्ट कॉन्ट्रैक्ट / CoinX ID / Email से भेजें</p>
                 </div>
 
                 <!-- 1. Send to any user via Smart Contract / CoinX ID / Email -->
                 <div class="glass-pink p-5 rounded-2xl border-pink-500/20 space-y-4">
-                    <h4 class="text-xs font-bold text-pink-500"><i class="fa-solid fa-arrow-right mr-1"></i> स्मार्ट कॉन्ट्रैक्ट से भेजें</h4>
-                    <p class="text-[9px] text-pink-400/60">किसी भी यूजर को SC, CoinX ID या Email से भेजें (कोई शुल्क नहीं)</p>
+                    <h4 class="text-xs font-bold text-pink-400"><i class="fa-solid fa-arrow-right mr-1"></i> स्मार्ट कॉन्ट्रैक्ट से भेजें</h4>
+                    <p class="text-[9px] text-pink-300/40">किसी भी यूजर को SC, CoinX ID या Email से भेजें (कोई शुल्क नहीं)</p>
                     <div class="space-y-2">
-                        <input type="text" id="sendToIdentifier" placeholder="SC / CoinX ID / Email" class="w-full bg-white/80 border border-pink-200 rounded-xl py-2.5 px-3 text-xs focus:outline-none focus:border-pink-400 text-gray-800 font-mono">
-                        <input type="number" id="sendAmount" placeholder="कॉइन संख्या" class="w-full bg-white/80 border border-pink-200 rounded-xl py-2.5 px-3 text-xs focus:outline-none focus:border-pink-400 text-gray-800 font-mono" oninput="checkSendMax()">
-                        <div class="text-[10px] text-pink-400/60 flex justify-between">
-                            <span>अधिकतम: <strong id="maxSendAmount" class="text-pink-500">0</strong> CX (Trade Wallet)</span>
-                            <span class="text-green-500">✅ कोई शुल्क नहीं</span>
+                        <input type="text" id="sendToIdentifier" placeholder="SC / CoinX ID / Email" class="w-full bg-black/40 border border-pink-500/20 rounded-xl py-2.5 px-3 text-xs focus:outline-none focus:border-pink-400 text-white font-mono">
+                        <input type="number" id="sendAmount" placeholder="कॉइन संख्या" class="w-full bg-black/40 border border-pink-500/20 rounded-xl py-2.5 px-3 text-xs focus:outline-none focus:border-pink-400 text-white font-mono" oninput="checkSendMax()">
+                        <div class="text-[10px] text-pink-300/50 flex justify-between">
+                            <span>अधिकतम: <strong id="maxSendAmount" class="text-pink-400">0</strong> CX</span>
+                            <span class="text-green-400">✅ कोई शुल्क नहीं</span>
                         </div>
-                        <button onclick="sendCoins()" class="w-full btn-pink py-2.5 rounded-xl text-xs font-bold shadow-lg"><i class="fa-solid fa-paper-plane mr-1"></i> भेजें</button>
+                        <button onclick="sendCoins()" class="w-full btn-pink py-2.5 rounded-xl text-xs font-bold shadow-xl"><i class="fa-solid fa-paper-plane mr-1"></i> भेजें</button>
                     </div>
                 </div>
 
-                <!-- 2. Send to CoinX Network (Main Wallet) - actually Move to Main -->
+                <!-- 2. Send to CoinX Network (Main Wallet) with 10% fee -->
                 <div class="glass-pink p-5 rounded-2xl border-pink-500/20 space-y-4">
-                    <h4 class="text-xs font-bold text-blue-500"><i class="fa-solid fa-arrow-right mr-1"></i> CoinX Network (मुख्य वॉलेट) में भेजें</h4>
-                    <p class="text-[9px] text-pink-400/60">Trade Wallet से अपने मुख्य वॉलेट में ट्रांसफर करें (कोई शुल्क नहीं)</p>
-                    <div class="space-y-2">
-                        <input type="number" id="moveToMainInput" placeholder="कॉइन संख्या" class="w-full bg-white/80 border border-pink-200 rounded-xl py-2.5 px-3 text-xs focus:outline-none focus:border-pink-400 text-gray-800 font-mono">
-                        <div class="text-[10px] text-pink-400/60">अधिकतम: <strong id="maxMoveToMain" class="text-pink-500">0</strong> CX (Trade Wallet)</div>
-                        <button onclick="moveToMain()" class="w-full bg-blue-500 hover:bg-blue-600 text-white font-bold py-2.5 rounded-xl text-xs transition-all btn-animate"><i class="fa-solid fa-arrow-left mr-1"></i> मुख्य में भेजें</button>
-                    </div>
-                </div>
-
-                <!-- Additional: Main to Trade (10% fee) as per earlier requirement -->
-                <div class="glass-pink p-5 rounded-2xl border-pink-500/20 space-y-4">
-                    <h4 class="text-xs font-bold text-amber-500"><i class="fa-solid fa-arrow-right-arrow-left mr-1"></i> मुख्य → Trade Wallet</h4>
-                    <p class="text-[9px] text-pink-400/60">मुख्य वॉलेट से Trade Wallet में ट्रांसफर (10% शुल्क)</p>
+                    <h4 class="text-xs font-bold text-blue-400"><i class="fa-solid fa-arrow-right mr-1"></i> CoinX Network (मुख्य वॉलेट) में भेजें</h4>
+                    <p class="text-[9px] text-pink-300/40">Trade Wallet से मुख्य वॉलेट में ट्रांसफर (10% शुल्क)</p>
                     <div class="space-y-2">
                         <div class="flex gap-2">
-                            <input type="number" id="moveToTradeInput" placeholder="मुख्य → Trade" class="flex-1 bg-white/80 border border-pink-200 rounded-xl py-2.5 px-3 text-xs focus:outline-none focus:border-pink-400 text-gray-800 font-mono" oninput="updateMoveFee()">
-                            <button onclick="moveToTrade()" class="btn-pink px-4 py-2.5 rounded-xl text-xs font-bold shadow-lg whitespace-nowrap"><i class="fa-solid fa-arrow-right mr-1"></i> भेजें</button>
+                            <input type="number" id="moveToMainInput" placeholder="कॉइन संख्या" class="flex-1 bg-black/40 border border-pink-500/20 rounded-xl py-2.5 px-3 text-xs focus:outline-none focus:border-pink-400 text-white font-mono" oninput="updateMoveMainFee()">
+                            <button onclick="moveToMain()" class="btn-pink px-4 py-2.5 rounded-xl text-xs font-bold shadow-xl whitespace-nowrap"><i class="fa-solid fa-arrow-right mr-1"></i> भेजें</button>
                         </div>
-                        <div class="flex justify-between text-[10px] text-pink-400/60">
-                            <span>अधिकतम: <strong id="maxMoveToTrade" class="text-pink-500">0</strong> CX</span>
-                            <span>शुल्क (10%): <strong id="moveFeePreview" class="text-red-400">0.00</strong> CX</span>
-                            <span>प्राप्त: <strong id="moveReceivePreview" class="text-green-500">0.00</strong> CX</span>
+                        <div class="flex justify-between text-[10px] text-pink-300/50">
+                            <span>अधिकतम: <strong id="maxMoveToMain" class="text-pink-400">0</strong> CX</span>
+                            <span>शुल्क (10%): <strong id="moveMainFeePreview" class="text-red-400">0.00</strong> CX</span>
+                            <span>प्राप्त: <strong id="moveMainReceivePreview" class="text-green-400">0.00</strong> CX</span>
                         </div>
+                    </div>
+                </div>
+
+                <!-- 3. Main to Trade (optional, keep for flexibility) -->
+                <div class="glass-pink p-5 rounded-2xl border-pink-500/20 space-y-4">
+                    <h4 class="text-xs font-bold text-amber-400"><i class="fa-solid fa-arrow-right-arrow-left mr-1"></i> मुख्य → Trade Wallet</h4>
+                    <p class="text-[9px] text-pink-300/40">मुख्य वॉलेट से Trade Wallet में ट्रांसफर (कोई शुल्क नहीं)</p>
+                    <div class="space-y-2">
+                        <div class="flex gap-2">
+                            <input type="number" id="moveToTradeInput" placeholder="मुख्य → Trade" class="flex-1 bg-black/40 border border-pink-500/20 rounded-xl py-2.5 px-3 text-xs focus:outline-none focus:border-pink-400 text-white font-mono">
+                            <button onclick="moveToTrade()" class="btn-pink px-4 py-2.5 rounded-xl text-xs font-bold shadow-xl whitespace-nowrap"><i class="fa-solid fa-arrow-right mr-1"></i> भेजें</button>
+                        </div>
+                        <div class="text-[10px] text-pink-300/50">अधिकतम: <strong id="maxMoveToTrade" class="text-pink-400">0</strong> CX (कोई शुल्क नहीं)</div>
                     </div>
                 </div>
             </section>
@@ -949,16 +937,16 @@
             <section id="historyPage" class="app-page w-full hidden space-y-4">
                 <div class="glass-pink p-4 rounded-2xl border-pink-500/20">
                     <h3 class="text-sm font-bold text-pink-400"><i class="fa-solid fa-clock mr-1.5"></i> लेनदेन हिस्ट्री</h3>
-                    <p class="text-[11px] text-pink-500/50">सभी ट्रांसफर और मूवमेंट</p>
+                    <p class="text-[11px] text-pink-300/50">सभी ट्रांसफर और मूवमेंट</p>
                 </div>
-                <div class="filter-tabs flex gap-2 bg-white/60 p-1 rounded-xl border border-pink-200">
-                    <button onclick="filterTxHistory('all')" id="txFilter-all" class="flex-1 py-1.5 text-center text-xs font-bold rounded bg-pink-500 text-white">सभी</button>
-                    <button onclick="filterTxHistory('transfer')" id="txFilter-transfer" class="flex-1 py-1.5 text-center text-xs font-bold text-pink-500/60 rounded">भेजा</button>
-                    <button onclick="filterTxHistory('receive')" id="txFilter-receive" class="flex-1 py-1.5 text-center text-xs font-bold text-pink-500/60 rounded">प्राप्त</button>
-                    <button onclick="filterTxHistory('internal')" id="txFilter-internal" class="flex-1 py-1.5 text-center text-xs font-bold text-pink-500/60 rounded">Internal</button>
+                <div class="filter-tabs flex gap-2 bg-black/40 p-1 rounded-xl border border-pink-500/15">
+                    <button onclick="filterTxHistory('all')" id="txFilter-all" class="flex-1 py-1.5 text-center text-xs font-bold rounded bg-pink-500 text-slate-950">सभी</button>
+                    <button onclick="filterTxHistory('transfer')" id="txFilter-transfer" class="flex-1 py-1.5 text-center text-xs font-bold text-pink-300/50 rounded">भेजा</button>
+                    <button onclick="filterTxHistory('receive')" id="txFilter-receive" class="flex-1 py-1.5 text-center text-xs font-bold text-pink-300/50 rounded">प्राप्त</button>
+                    <button onclick="filterTxHistory('internal')" id="txFilter-internal" class="flex-1 py-1.5 text-center text-xs font-bold text-pink-300/50 rounded">Internal</button>
                 </div>
                 <div id="historyList" class="space-y-2 max-h-[400px] overflow-y-auto">
-                    <p class="text-[10px] text-pink-400/40 text-center py-4">कोई लेनदेन नहीं</p>
+                    <p class="text-[10px] text-pink-300/40 text-center py-4">कोई लेनदेन नहीं</p>
                 </div>
             </section>
 
@@ -968,14 +956,14 @@
                     <div class="flex items-center gap-3">
                         <div class="w-12 h-12 rounded-full pink-bg-gradient flex items-center justify-center text-white font-bold shadow-lg"><i class="fa-solid fa-user-tie"></i></div>
                         <div>
-                            <h3 id="profileName" class="font-bold text-gray-800">User</h3>
-                            <p id="profileEmail" class="text-[10px] text-pink-500/60">user@example.com</p>
+                            <h3 id="profileName" class="font-bold text-slate-200">User</h3>
+                            <p id="profileEmail" class="text-[10px] text-pink-300/60">user@example.com</p>
                         </div>
                     </div>
                     <div class="text-right">
-                        <span class="text-[9px] text-pink-500/60">CoinX ID</span>
-                        <span id="profileCoinXId" class="text-xs font-bold text-pink-500 font-mono block">CX-XXXX</span>
-                        <button onclick="copyToClipboard('profileCoinXId', '✅ CoinX ID कॉपी हो गया!')" class="text-pink-500 hover:text-pink-700 btn-animate text-xs"><i class="fa-solid fa-copy"></i></button>
+                        <span class="text-[9px] text-pink-300/50">CoinX ID</span>
+                        <span id="profileCoinXId" class="text-xs font-bold text-pink-400 font-mono block">CX-XXXX</span>
+                        <button onclick="copyToClipboard('profileCoinXId', '✅ CoinX ID कॉपी हो गया!')" class="text-pink-400 hover:text-white btn-animate text-xs"><i class="fa-solid fa-copy"></i></button>
                     </div>
                 </div>
 
@@ -984,10 +972,10 @@
                     <div class="flex justify-center">
                         <div class="qr-box" id="profileQrContainer"></div>
                     </div>
-                    <p class="text-[8px] text-pink-400/50 text-center">अपना QR स्कैन करें और कॉइन प्राप्त करें</p>
+                    <p class="text-[8px] text-pink-300/40 text-center">अपना QR स्कैन करें और कॉइन प्राप्त करें</p>
                 </div>
 
-                <button onclick="handleLogout()" class="w-full bg-red-100 hover:bg-red-200 text-red-500 border border-red-200 font-semibold py-2.5 rounded-xl text-xs transition-all"><i class="fa-solid fa-power-off mr-1.5"></i> लॉगआउट</button>
+                <button onclick="handleLogout()" class="w-full bg-red-500/10 hover:bg-red-500/20 text-red-400 border border-red-500/30 font-semibold py-2.5 rounded-xl text-xs"><i class="fa-solid fa-power-off mr-1.5"></i> लॉगआउट</button>
             </section>
 
             <!-- BOTTOM NAV -->
@@ -1004,8 +992,8 @@
         <div id="qrScannerOverlay" class="qr-scanner-overlay hidden">
             <button class="close-scanner" onclick="closeQrScanner()"><i class="fa-solid fa-xmark"></i></button>
             <div class="scanner-box">
-                <h3 class="text-pink-500 font-bold text-sm mb-2"><i class="fa-solid fa-camera mr-1"></i> QR स्कैन करें</h3>
-                <p class="text-[10px] text-pink-400/60 mb-2">कैमरा चालू करें और QR कोड दिखाएँ</p>
+                <h3 class="text-pink-400 font-bold text-sm mb-2"><i class="fa-solid fa-camera mr-1"></i> QR स्कैन करें</h3>
+                <p class="text-[10px] text-pink-300/40 mb-2">कैमरा चालू करें और QR कोड दिखाएँ</p>
                 <div id="reader"></div>
                 <div class="flex gap-2 mt-2 flex-wrap justify-center">
                     <button onclick="startScanner()" class="scan-btn"><i class="fa-solid fa-play mr-1"></i> स्टार्ट</button>
@@ -1014,15 +1002,15 @@
                 <div class="mt-2">
                     <input type="text" id="scannerInput" placeholder="पेस्ट करें SC एड्रेस..." class="w-full">
                     <div class="flex gap-2 mt-1">
-                        <input type="number" id="scannerAmount" placeholder="कॉइन संख्या" class="flex-1 bg-white/80 border border-pink-200 rounded-xl py-2 px-3 text-xs focus:outline-none focus:border-pink-400 text-gray-800 font-mono">
+                        <input type="number" id="scannerAmount" placeholder="कॉइन संख्या" class="flex-1 bg-black/40 border border-pink-500/20 rounded-xl py-2 px-3 text-xs focus:outline-none focus:border-pink-400 text-white font-mono">
                         <button onclick="scanAndSend()" class="scan-btn px-4 py-2 text-xs"><i class="fa-solid fa-paper-plane mr-1"></i> भेजें</button>
                     </div>
                 </div>
-                <p class="text-[8px] text-pink-400/40 mt-2">स्कैन करने के बाद एड्रेस ऑटो-फिल हो जाएगा</p>
+                <p class="text-[8px] text-pink-300/30 mt-2">स्कैन करने के बाद एड्रेस ऑटो-फिल हो जाएगा</p>
             </div>
         </div>
 
-        <!-- QR Action Modal for Buy/Sell – shows image from link -->
+        <!-- QR Action Modal for Buy/Sell -->
         <div id="qrActionModal" class="qr-action-modal hidden">
             <div class="modal-box">
                 <div class="modal-title" id="qrActionTitle">💰 खरीदें</div>
@@ -1116,7 +1104,7 @@
         function showToast(msg, type = 'success') {
             const toast = document.getElementById('toastNotification');
             document.getElementById('toastMessage').innerText = msg;
-            const colors = { success: 'rgba(52,211,153,0.3)', error: 'rgba(239,68,68,0.3)', info: 'rgba(236,72,153,0.2)' };
+            const colors = { success: 'rgba(52,211,153,0.4)', error: 'rgba(239,68,68,0.4)', info: 'rgba(236,72,153,0.3)' };
             toast.style.borderColor = colors[type] || colors.info;
             toast.classList.add('show');
             clearTimeout(toast._timer);
@@ -1164,7 +1152,7 @@
         }
 
         // ============================================================
-        // QR CODE GENERATION (Real QR using QRCode.js)
+        // QR CODE GENERATION
         // ============================================================
         function generateRealQR(text, containerId) {
             const container = document.getElementById(containerId);
@@ -1185,7 +1173,7 @@
         }
 
         // ============================================================
-        // QR SCANNER (using html5-qrcode)
+        // QR SCANNER
         // ============================================================
         function openQrScanner() {
             document.getElementById('qrScannerOverlay').classList.remove('hidden');
@@ -1420,12 +1408,12 @@
                 'profile': 'profilePage' };
             showPage(map[section]);
             document.querySelectorAll('#bottomNavBar button').forEach(b => {
-                b.classList.remove('text-pink-500', 'active');
-                b.classList.add('text-gray-400');
+                b.classList.remove('text-pink-400', 'active');
+                b.classList.add('text-slate-400');
             });
             const navBtn = document.getElementById('nav-' + section);
-            if (navBtn) { navBtn.classList.remove('text-gray-400');
-                navBtn.classList.add('text-pink-500', 'active'); }
+            if (navBtn) { navBtn.classList.remove('text-slate-400');
+                navBtn.classList.add('text-pink-400', 'active'); }
             if (section === 'dashboard') updateDashboard();
             if (section === 'transfer') updateTransferUI();
             if (section === 'history') renderHistory();
@@ -1439,12 +1427,11 @@
             if (!currentUser) return;
             document.getElementById('userSmartContractAddress').innerText = currentUser.smartContract || 'N/A';
             document.getElementById('mainBalance').innerText = parseFloat(currentUser.coins || 0).toFixed(2) + ' CX';
-            document.getElementById('tradeBalance').innerText = parseFloat(currentUser.tradeWallet || 0).toFixed(2) + ' CX';
             generateRealQR(currentUser.smartContract || 'N/A', 'qrCodeContainer');
         }
 
         // ============================================================
-        // BUY / SELL – Show QR modal with image
+        // BUY / SELL
         // ============================================================
         function buyCoins() {
             if (!currentUser) { showToast('पहले लॉगिन करें', 'error'); return; }
@@ -1478,15 +1465,15 @@
             document.getElementById('maxSendAmount').innerText = parseFloat(currentUser.tradeWallet || 0).toFixed(2);
             document.getElementById('maxMoveToMain').innerText = parseFloat(currentUser.tradeWallet || 0).toFixed(2);
             document.getElementById('maxMoveToTrade').innerText = parseFloat(currentUser.coins || 0).toFixed(2);
-            updateMoveFee();
+            updateMoveMainFee();
         }
 
-        function updateMoveFee() {
-            const val = parseFloat(document.getElementById('moveToTradeInput').value) || 0;
+        function updateMoveMainFee() {
+            const val = parseFloat(document.getElementById('moveToMainInput').value) || 0;
             const fee = val * 0.10;
             const receive = val - fee;
-            document.getElementById('moveFeePreview').innerText = fee.toFixed(2);
-            document.getElementById('moveReceivePreview').innerText = receive.toFixed(2);
+            document.getElementById('moveMainFeePreview').innerText = fee.toFixed(2);
+            document.getElementById('moveMainReceivePreview').innerText = receive.toFixed(2);
         }
 
         function checkSendMax() {
@@ -1510,7 +1497,6 @@
             const maxTrade = parseFloat(currentUser.tradeWallet || 0);
             if (amount > maxTrade) { showToast('Trade Wallet में पर्याप्त कॉइन नहीं!', 'error'); return; }
 
-            // No fee
             const netAmount = amount;
 
             try {
@@ -1576,51 +1562,25 @@
         }
 
         // ============================================================
-        // MOVE: TRADE TO MAIN (CoinX Network) – No fee
+        // MOVE: TRADE TO MAIN (10% fee)
         // ============================================================
         async function moveToMain() {
             if (!currentUser) { showToast('लॉगिन करें', 'error'); return; }
             const amount = parseFloat(document.getElementById('moveToMainInput').value);
             if (!amount || amount <= 0) { showToast('सही संख्या दर्ज करें', 'error'); return; }
-            if (amount > parseFloat(currentUser.tradeWallet || 0)) { showToast('Trade Wallet में पर्याप्त नहीं!', 'error'); return; }
+            const maxTrade = parseFloat(currentUser.tradeWallet || 0);
+            if (amount > maxTrade) { showToast('Trade Wallet में पर्याप्त नहीं!', 'error'); return; }
+
+            const fee = amount * 0.10;
+            const receive = amount - fee;
+
             try {
                 const newTrade = parseFloat(currentUser.tradeWallet || 0) - amount;
-                const newCoins = parseFloat(currentUser.coins || 0) + amount;
+                const newCoins = parseFloat(currentUser.coins || 0) + receive;
+
                 const tx = {
                     type: 'internal',
                     action: 'trade_to_main',
-                    amount: amount,
-                    dateTime: new Date().toLocaleString('hi-IN')
-                };
-                const history = [...(currentUser.tradeHistory || [])];
-                history.push(tx);
-                await saveUserFields({ coins: newCoins, tradeWallet: newTrade, tradeHistory: JSON.stringify(history) });
-                currentUser.coins = newCoins;
-                currentUser.tradeWallet = newTrade;
-                currentUser.tradeHistory = history;
-                document.getElementById('moveToMainInput').value = '';
-                showToast(`✅ ${amount.toFixed(2)} CX मुख्य वॉलेट में जमा`, 'success');
-                updateTransferUI();
-                updateDashboard();
-            } catch (e) { showToast('त्रुटि: ' + e.message, 'error'); }
-        }
-
-        // ============================================================
-        // MOVE: MAIN TO TRADE (10% fee) – as per earlier requirement
-        // ============================================================
-        async function moveToTrade() {
-            if (!currentUser) { showToast('लॉगिन करें', 'error'); return; }
-            const amount = parseFloat(document.getElementById('moveToTradeInput').value);
-            if (!amount || amount <= 0) { showToast('सही संख्या दर्ज करें', 'error'); return; }
-            if (amount > parseFloat(currentUser.coins || 0)) { showToast('मुख्य बैलेंस में पर्याप्त नहीं!', 'error'); return; }
-            const fee = amount * 0.10;
-            const receive = amount - fee;
-            try {
-                const newCoins = parseFloat(currentUser.coins || 0) - amount;
-                const newTrade = parseFloat(currentUser.tradeWallet || 0) + receive;
-                const tx = {
-                    type: 'internal',
-                    action: 'main_to_trade',
                     amount: amount,
                     fee: fee,
                     receiveAmount: receive,
@@ -1632,15 +1592,47 @@
                 currentUser.coins = newCoins;
                 currentUser.tradeWallet = newTrade;
                 currentUser.tradeHistory = history;
-                document.getElementById('moveToTradeInput').value = '';
-                showToast(`✅ ${receive.toFixed(2)} CX Trade Wallet में जमा (शुल्क: ${fee.toFixed(2)})`, 'success');
+                document.getElementById('moveToMainInput').value = '';
+                showToast(`✅ ${receive.toFixed(2)} CX मुख्य वॉलेट में जमा (शुल्क: ${fee.toFixed(2)})`, 'success');
                 updateTransferUI();
                 updateDashboard();
             } catch (e) { showToast('त्रुटि: ' + e.message, 'error'); }
         }
 
         // ============================================================
-        // SCAN & SEND (from scanner) – sends from Trade Wallet (no fee)
+        // MOVE: MAIN TO TRADE (No fee)
+        // ============================================================
+        async function moveToTrade() {
+            if (!currentUser) { showToast('लॉगिन करें', 'error'); return; }
+            const amount = parseFloat(document.getElementById('moveToTradeInput').value);
+            if (!amount || amount <= 0) { showToast('सही संख्या दर्ज करें', 'error'); return; }
+            if (amount > parseFloat(currentUser.coins || 0)) { showToast('मुख्य बैलेंस में पर्याप्त नहीं!', 'error'); return; }
+
+            try {
+                const newCoins = parseFloat(currentUser.coins || 0) - amount;
+                const newTrade = parseFloat(currentUser.tradeWallet || 0) + amount;
+
+                const tx = {
+                    type: 'internal',
+                    action: 'main_to_trade',
+                    amount: amount,
+                    dateTime: new Date().toLocaleString('hi-IN')
+                };
+                const history = [...(currentUser.tradeHistory || [])];
+                history.push(tx);
+                await saveUserFields({ coins: newCoins, tradeWallet: newTrade, tradeHistory: JSON.stringify(history) });
+                currentUser.coins = newCoins;
+                currentUser.tradeWallet = newTrade;
+                currentUser.tradeHistory = history;
+                document.getElementById('moveToTradeInput').value = '';
+                showToast(`✅ ${amount.toFixed(2)} CX Trade Wallet में जमा`, 'success');
+                updateTransferUI();
+                updateDashboard();
+            } catch (e) { showToast('त्रुटि: ' + e.message, 'error'); }
+        }
+
+        // ============================================================
+        // SCAN & SEND
         // ============================================================
         async function scanAndSend() {
             if (!currentUser) { showToast('पहले लॉगिन करें', 'error'); return; }
@@ -1716,12 +1708,12 @@
         function filterTxHistory(filter) {
             txHistoryFilter = filter;
             document.querySelectorAll('.filter-tabs button').forEach(b => {
-                b.classList.remove('bg-pink-500', 'text-white');
-                b.classList.add('text-pink-500/60');
+                b.classList.remove('bg-pink-500', 'text-slate-950');
+                b.classList.add('text-pink-300/50');
             });
             const btn = document.getElementById('txFilter-' + filter);
-            if (btn) { btn.classList.remove('text-pink-500/60');
-                btn.classList.add('bg-pink-500', 'text-white'); }
+            if (btn) { btn.classList.remove('text-pink-300/50');
+                btn.classList.add('bg-pink-500', 'text-slate-950'); }
             renderHistory();
         }
 
@@ -1733,7 +1725,7 @@
                 txs = txs.filter(t => t.category === txHistoryFilter);
             }
             if (txs.length === 0) {
-                container.innerHTML = '<p class="text-[10px] text-pink-400/40 text-center py-4">कोई लेनदेन नहीं</p>';
+                container.innerHTML = '<p class="text-[10px] text-pink-300/40 text-center py-4">कोई लेनदेन नहीं</p>';
                 return;
             }
             txs.forEach(t => {
@@ -1751,11 +1743,11 @@
                 } else if (t.action === 'main_to_trade') {
                     icon = 'fa-solid fa-arrow-right-arrow-left';
                     label = 'मुख्य→Trade';
-                    color = 'type-withdraw';
+                    color = 'type-deposit';
                 } else if (t.action === 'trade_to_main') {
                     icon = 'fa-solid fa-arrow-right-arrow-left';
                     label = 'Trade→मुख्य';
-                    color = 'type-deposit';
+                    color = 'type-withdraw';
                 } else {
                     icon = 'fa-solid fa-exchange';
                     label = 'अन्य';
@@ -1768,10 +1760,10 @@
                 if (t.netAmount) detail += `<span>प्राप्त: ${t.netAmount} CX</span>`;
                 div.innerHTML = `
                     <div class="flex justify-between items-center">
-                        <div><span class="font-bold ${color}"><i class="${icon} mr-1"></i> ${label}</span><span class="text-xs font-bold text-gray-800 ml-2">${t.amount || t.receiveAmount || 0} CX</span></div>
-                        <span class="text-[10px] text-pink-400/50">${t.dateTime || ''}</span>
+                        <div><span class="font-bold ${color}"><i class="${icon} mr-1"></i> ${label}</span><span class="text-xs font-bold text-white ml-2">${t.amount || t.receiveAmount || 0} CX</span></div>
+                        <span class="text-[10px] text-pink-300/40">${t.dateTime || ''}</span>
                     </div>
-                    <div class="text-[9px] text-pink-400/60 flex flex-wrap gap-1">${detail}</div>
+                    <div class="text-[9px] text-pink-300/50 flex flex-wrap gap-1">${detail}</div>
                 `;
                 container.appendChild(div);
             });
@@ -1803,7 +1795,7 @@
                 el.textContent = emojis[i % emojis.length];
                 el.style.left = Math.random() * 100 + '%';
                 el.style.top = (Math.random() * 90 + 5) + '%';
-                el.style.fontSize = (Math.random() * 20 + 16) + 'px';
+                el.style.fontSize = (Math.random() * 22 + 16) + 'px';
                 el.style.animationDuration = (Math.random() * 25 + 15) + 's';
                 el.style.animationDelay = (Math.random() * 15) + 's';
                 el.style.opacity = (Math.random() * 0.35 + 0.2);
@@ -1872,7 +1864,7 @@
         window.filterTxHistory = filterTxHistory;
         window.hideToast = hideToast;
         window.checkSendMax = checkSendMax;
-        window.updateMoveFee = updateMoveFee;
+        window.updateMoveMainFee = updateMoveMainFee;
         window.buyCoins = buyCoins;
         window.sellCoins = sellCoins;
         window.openQrScanner = openQrScanner;
