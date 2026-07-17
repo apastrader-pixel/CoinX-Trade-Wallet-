@@ -495,46 +495,6 @@
         .filter-tabs button:hover:not(.active) {
             color: #d4b0e0;
         }
-        .gift-card {
-            background: linear-gradient(145deg, rgba(18, 12, 28, 0.9), rgba(30, 18, 40, 0.9));
-            border: 1px solid rgba(236, 72, 153, 0.2);
-            border-radius: 16px;
-            padding: 16px;
-            text-align: center;
-            transition: all 0.3s;
-        }
-        .gift-card:hover {
-            transform: scale(1.02);
-            border-color: rgba(236, 72, 153, 0.5);
-        }
-        .gift-card .gift-icon {
-            font-size: 36px;
-            margin-bottom: 6px;
-            display: block;
-        }
-        .gift-card .gift-title {
-            font-size: 13px;
-            font-weight: 700;
-            color: #f9a8d4;
-        }
-        .gift-card .gift-desc {
-            font-size: 10px;
-            color: #a78bbf;
-            margin-top: 4px;
-        }
-        .gift-card .gift-price {
-            font-size: 11px;
-            font-weight: 700;
-            color: #ec4899;
-            margin-top: 4px;
-        }
-        .gift-card img {
-            width: 60px;
-            height: 60px;
-            object-fit: contain;
-            margin: 0 auto 6px;
-            border-radius: 8px;
-        }
         @media (max-width: 440px) {
             .bottom-nav button i {
                 font-size: 17px;
@@ -547,10 +507,6 @@
             }
             .slide-text .quote-line2 {
                 font-size: 11px;
-            }
-            .gift-card img {
-                width: 48px;
-                height: 48px;
             }
         }
         .butterfly-bg {
@@ -841,7 +797,7 @@
                     <p class="text-[8px] text-pink-300/40 text-center mt-2">⬆️ स्मार्ट कॉन्ट्रैक्ट का QR — स्कैन करें और भेजें</p>
                 </div>
 
-                <!-- Balances - Only Main Balance (Trade Wallet removed from dashboard) -->
+                <!-- Balance - Only Main Balance shown on dashboard -->
                 <div class="glass-pink-dark p-3.5 rounded-2xl border-pink-500/15 card-3d">
                     <span class="text-[10px] text-pink-300/60 block mb-1"><i class="fa-solid fa-wallet mr-1 text-green-400"></i> मुख्य बैलेंस</span>
                     <span id="mainBalance" class="text-md font-bold text-green-400">0.00 CX</span>
@@ -867,7 +823,7 @@
                     </div>
                 </div>
 
-                <!-- Quick Actions - Only two: भेजें and हिस्ट्री (removed the third icon) -->
+                <!-- Quick Actions - Only two: भेजें and हिस्ट्री -->
                 <div class="grid grid-cols-2 gap-2">
                     <button onclick="switchNav('transfer')" class="glass-pink p-2.5 rounded-xl border-pink-500/20 text-center hover:border-pink-400 transition-all">
                         <i class="fa-solid fa-paper-plane text-pink-400 text-lg block mb-0.5"></i>
@@ -884,10 +840,10 @@
             <section id="transferPage" class="app-page w-full hidden space-y-4">
                 <div class="glass-pink p-4 rounded-2xl border-pink-500/20">
                     <h3 class="text-sm font-bold text-pink-400"><i class="fa-solid fa-exchange mr-1.5"></i> कॉइन ट्रांसफर</h3>
-                    <p class="text-[11px] text-pink-300/50">स्मार्ट कॉन्ट्रैक्ट / CoinX ID / Email से भेजें</p>
+                    <p class="text-[11px] text-pink-300/50">Trade Wallet से कॉइन भेजें</p>
                 </div>
 
-                <!-- 1. Send to any user via Smart Contract / CoinX ID / Email -->
+                <!-- 1. Send to any user via Smart Contract / CoinX ID / Email (No fee) -->
                 <div class="glass-pink p-5 rounded-2xl border-pink-500/20 space-y-4">
                     <h4 class="text-xs font-bold text-pink-400"><i class="fa-solid fa-arrow-right mr-1"></i> स्मार्ट कॉन्ट्रैक्ट से भेजें</h4>
                     <p class="text-[9px] text-pink-300/40">किसी भी यूजर को SC, CoinX ID या Email से भेजें (कोई शुल्क नहीं)</p>
@@ -895,7 +851,7 @@
                         <input type="text" id="sendToIdentifier" placeholder="SC / CoinX ID / Email" class="w-full bg-black/40 border border-pink-500/20 rounded-xl py-2.5 px-3 text-xs focus:outline-none focus:border-pink-400 text-white font-mono">
                         <input type="number" id="sendAmount" placeholder="कॉइन संख्या" class="w-full bg-black/40 border border-pink-500/20 rounded-xl py-2.5 px-3 text-xs focus:outline-none focus:border-pink-400 text-white font-mono" oninput="checkSendMax()">
                         <div class="text-[10px] text-pink-300/50 flex justify-between">
-                            <span>अधिकतम: <strong id="maxSendAmount" class="text-pink-400">0</strong> CX</span>
+                            <span>अधिकतम: <strong id="maxSendAmount" class="text-pink-400">0</strong> CX (Trade Wallet)</span>
                             <span class="text-green-400">✅ कोई शुल्क नहीं</span>
                         </div>
                         <button onclick="sendCoins()" class="w-full btn-pink py-2.5 rounded-xl text-xs font-bold shadow-xl"><i class="fa-solid fa-paper-plane mr-1"></i> भेजें</button>
@@ -912,25 +868,16 @@
                             <button onclick="moveToMain()" class="btn-pink px-4 py-2.5 rounded-xl text-xs font-bold shadow-xl whitespace-nowrap"><i class="fa-solid fa-arrow-right mr-1"></i> भेजें</button>
                         </div>
                         <div class="flex justify-between text-[10px] text-pink-300/50">
-                            <span>अधिकतम: <strong id="maxMoveToMain" class="text-pink-400">0</strong> CX</span>
+                            <span>अधिकतम: <strong id="maxMoveToMain" class="text-pink-400">0</strong> CX (Trade Wallet)</span>
                             <span>शुल्क (10%): <strong id="moveMainFeePreview" class="text-red-400">0.00</strong> CX</span>
-                            <span>प्राप्त: <strong id="moveMainReceivePreview" class="text-green-400">0.00</strong> CX</span>
+                            <span>प्राप्त: <strong id="moveMainReceivePreview" class="text-green-400">0.00</strong> CX (मुख्य वॉलेट)</span>
                         </div>
                     </div>
                 </div>
 
-                <!-- 3. Main to Trade (optional, keep for flexibility) -->
-                <div class="glass-pink p-5 rounded-2xl border-pink-500/20 space-y-4">
-                    <h4 class="text-xs font-bold text-amber-400"><i class="fa-solid fa-arrow-right-arrow-left mr-1"></i> मुख्य → Trade Wallet</h4>
-                    <p class="text-[9px] text-pink-300/40">मुख्य वॉलेट से Trade Wallet में ट्रांसफर (कोई शुल्क नहीं)</p>
-                    <div class="space-y-2">
-                        <div class="flex gap-2">
-                            <input type="number" id="moveToTradeInput" placeholder="मुख्य → Trade" class="flex-1 bg-black/40 border border-pink-500/20 rounded-xl py-2.5 px-3 text-xs focus:outline-none focus:border-pink-400 text-white font-mono">
-                            <button onclick="moveToTrade()" class="btn-pink px-4 py-2.5 rounded-xl text-xs font-bold shadow-xl whitespace-nowrap"><i class="fa-solid fa-arrow-right mr-1"></i> भेजें</button>
-                        </div>
-                        <div class="text-[10px] text-pink-300/50">अधिकतम: <strong id="maxMoveToTrade" class="text-pink-400">0</strong> CX (कोई शुल्क नहीं)</div>
-                    </div>
-                </div>
+                <!-- 3. Main to Trade - REMOVED as requested -->
+                <!-- The "मुख्य → Trade Wallet" section is completely removed -->
+
             </section>
 
             <!-- ======================== HISTORY ======================== -->
@@ -1464,7 +1411,6 @@
             if (!currentUser) return;
             document.getElementById('maxSendAmount').innerText = parseFloat(currentUser.tradeWallet || 0).toFixed(2);
             document.getElementById('maxMoveToMain').innerText = parseFloat(currentUser.tradeWallet || 0).toFixed(2);
-            document.getElementById('maxMoveToTrade').innerText = parseFloat(currentUser.coins || 0).toFixed(2);
             updateMoveMainFee();
         }
 
@@ -1594,38 +1540,6 @@
                 currentUser.tradeHistory = history;
                 document.getElementById('moveToMainInput').value = '';
                 showToast(`✅ ${receive.toFixed(2)} CX मुख्य वॉलेट में जमा (शुल्क: ${fee.toFixed(2)})`, 'success');
-                updateTransferUI();
-                updateDashboard();
-            } catch (e) { showToast('त्रुटि: ' + e.message, 'error'); }
-        }
-
-        // ============================================================
-        // MOVE: MAIN TO TRADE (No fee)
-        // ============================================================
-        async function moveToTrade() {
-            if (!currentUser) { showToast('लॉगिन करें', 'error'); return; }
-            const amount = parseFloat(document.getElementById('moveToTradeInput').value);
-            if (!amount || amount <= 0) { showToast('सही संख्या दर्ज करें', 'error'); return; }
-            if (amount > parseFloat(currentUser.coins || 0)) { showToast('मुख्य बैलेंस में पर्याप्त नहीं!', 'error'); return; }
-
-            try {
-                const newCoins = parseFloat(currentUser.coins || 0) - amount;
-                const newTrade = parseFloat(currentUser.tradeWallet || 0) + amount;
-
-                const tx = {
-                    type: 'internal',
-                    action: 'main_to_trade',
-                    amount: amount,
-                    dateTime: new Date().toLocaleString('hi-IN')
-                };
-                const history = [...(currentUser.tradeHistory || [])];
-                history.push(tx);
-                await saveUserFields({ coins: newCoins, tradeWallet: newTrade, tradeHistory: JSON.stringify(history) });
-                currentUser.coins = newCoins;
-                currentUser.tradeWallet = newTrade;
-                currentUser.tradeHistory = history;
-                document.getElementById('moveToTradeInput').value = '';
-                showToast(`✅ ${amount.toFixed(2)} CX Trade Wallet में जमा`, 'success');
                 updateTransferUI();
                 updateDashboard();
             } catch (e) { showToast('त्रुटि: ' + e.message, 'error'); }
@@ -1859,7 +1773,6 @@
         window.switchNav = switchNav;
         window.copyToClipboard = copyToClipboard;
         window.sendCoins = sendCoins;
-        window.moveToTrade = moveToTrade;
         window.moveToMain = moveToMain;
         window.filterTxHistory = filterTxHistory;
         window.hideToast = hideToast;
