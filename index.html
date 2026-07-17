@@ -12,6 +12,9 @@
     </script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js">
     </script>
+    <!-- QR Scanner Library -->
+    <script src="https://unpkg.com/html5-qrcode@2.3.8/html5-qrcode.min.js">
+    </script>
     <style>
         * {
             margin: 0;
@@ -63,17 +66,6 @@
         }
         .btn-pink:active {
             transform: scale(0.97);
-        }
-        .btn-pink-outline {
-            background: transparent;
-            border: 2px solid #ec4899;
-            color: #ec4899;
-            font-weight: 600;
-            transition: all 0.25s ease;
-        }
-        .btn-pink-outline:hover {
-            background: #ec4899;
-            color: #fff;
         }
         .card-3d {
             transform: perspective(1000px) rotateX(0deg) rotateY(0deg);
@@ -552,7 +544,7 @@
         .qr-scanner-overlay {
             position: fixed;
             inset: 0;
-            background: rgba(0, 0, 0, 0.9);
+            background: rgba(0, 0, 0, 0.92);
             backdrop-filter: blur(12px);
             z-index: 100;
             display: flex;
@@ -575,6 +567,8 @@
             border-radius: 12px;
             overflow: hidden;
             margin: 10px 0;
+            min-height: 200px;
+            background: #0a0715;
         }
         .qr-scanner-overlay .scanner-box input {
             width: 100%;
@@ -693,6 +687,21 @@
             color: #ec4899;
             margin-bottom: 4px;
         }
+        /* Scanner status text */
+        .scanner-status {
+            color: #a78bbf;
+            font-size: 11px;
+            margin: 6px 0;
+        }
+        .scanner-status .error {
+            color: #f87171;
+        }
+        .scanner-status .success {
+            color: #34d399;
+        }
+        .scanner-status .info {
+            color: #60a5fa;
+        }
     </style>
 </head>
 <body>
@@ -797,10 +806,16 @@
                     <p class="text-[8px] text-pink-300/40 text-center mt-2">⬆️ स्मार्ट कॉन्ट्रैक्ट का QR — स्कैन करें और भेजें</p>
                 </div>
 
-                <!-- Balance - Only Main Balance shown on dashboard -->
-                <div class="glass-pink-dark p-3.5 rounded-2xl border-pink-500/15 card-3d">
-                    <span class="text-[10px] text-pink-300/60 block mb-1"><i class="fa-solid fa-wallet mr-1 text-green-400"></i> मुख्य बैलेंस</span>
-                    <span id="mainBalance" class="text-md font-bold text-green-400">0.00 CX</span>
+                <!-- Balances: Main + Trade Wallet -->
+                <div class="grid grid-cols-2 gap-3">
+                    <div class="glass-pink-dark p-3.5 rounded-2xl border-pink-500/15 card-3d">
+                        <span class="text-[10px] text-pink-300/60 block mb-1"><i class="fa-solid fa-wallet mr-1 text-green-400"></i> मुख्य बैलेंस</span>
+                        <span id="mainBalance" class="text-md font-bold text-green-400">0.00 CX</span>
+                    </div>
+                    <div class="glass-pink-dark p-3.5 rounded-2xl border-pink-500/15 card-3d">
+                        <span class="text-[10px] text-pink-300/60 block mb-1"><i class="fa-solid fa-arrow-right-arrow-left mr-1 text-pink-400"></i> Trade Wallet</span>
+                        <span id="tradeBalance" class="text-md font-bold text-pink-400">0.00 CX</span>
+                    </div>
                 </div>
 
                 <!-- Buy / Sell Section with QR modal -->
@@ -876,7 +891,6 @@
                 </div>
 
                 <!-- 3. Main to Trade - REMOVED as requested -->
-                <!-- The "मुख्य → Trade Wallet" section is completely removed -->
 
             </section>
 
@@ -939,9 +953,10 @@
         <div id="qrScannerOverlay" class="qr-scanner-overlay hidden">
             <button class="close-scanner" onclick="closeQrScanner()"><i class="fa-solid fa-xmark"></i></button>
             <div class="scanner-box">
-                <h3 class="text-pink-400 font-bold text-sm mb-2"><i class="fa-solid fa-camera mr-1"></i> QR स्कैन करें</h3>
+                <h3 class="text-pink-400 font-bold text-sm mb-1"><i class="fa-solid fa-camera mr-1"></i> QR स्कैन करें</h3>
                 <p class="text-[10px] text-pink-300/40 mb-2">कैमरा चालू करें और QR कोड दिखाएँ</p>
                 <div id="reader"></div>
+                <div id="scannerStatus" class="scanner-status text-center">⏳ कैमरा शुरू हो रहा है...</div>
                 <div class="flex gap-2 mt-2 flex-wrap justify-center">
                     <button onclick="startScanner()" class="scan-btn"><i class="fa-solid fa-play mr-1"></i> स्टार्ट</button>
                     <button onclick="stopScanner()" class="scan-btn scan-btn-secondary"><i class="fa-solid fa-stop mr-1"></i> बंद करें</button>
@@ -1120,13 +1135,19 @@
         }
 
         // ============================================================
-        // QR SCANNER
+        // QR SCANNER - FIXED
         // ============================================================
         function openQrScanner() {
-            document.getElementById('qrScannerOverlay').classList.remove('hidden');
+            const overlay = document.getElementById('qrScannerOverlay');
+            overlay.classList.remove('hidden');
             document.getElementById('scannerInput').value = '';
             document.getElementById('scannerAmount').value = '';
-            setTimeout(startScanner, 500);
+            document.getElementById('scannerStatus').innerHTML = '⏳ कैमरा शुरू हो रहा है...';
+            document.getElementById('scannerStatus').className = 'scanner-status info';
+            // Auto-start scanner after a short delay
+            setTimeout(function() {
+                startScanner();
+            }, 600);
         }
 
         function closeQrScanner() {
@@ -1135,37 +1156,97 @@
         }
 
         function startScanner() {
-            if (isScanning) return;
+            if (isScanning) {
+                showToast('📷 कैमरा पहले से चालू है', 'info');
+                return;
+            }
             const readerElement = document.getElementById('reader');
-            if (!readerElement) return;
+            if (!readerElement) {
+                showToast('❌ रीडर एलिमेंट नहीं मिला', 'error');
+                return;
+            }
+
+            // Clear previous scanner instance
             if (html5QrCode) {
-                html5QrCode.clear();
+                try {
+                    html5QrCode.clear();
+                } catch (e) {}
                 html5QrCode = null;
             }
-            html5QrCode = new Html5Qrcode("reader");
-            const config = { fps: 10, qrbox: { width: 250, height: 250 }, aspectRatio: 1.0 };
-            html5QrCode.start({ facingMode: "environment" }, config, onScanSuccess, onScanError)
-                .then(() => {
+
+            // Check if Html5Qrcode is available
+            if (typeof Html5Qrcode === 'undefined') {
+                document.getElementById('scannerStatus').innerHTML = '❌ QR लाइब्रेरी लोड नहीं हुई। पेज रिफ्रेश करें।';
+                document.getElementById('scannerStatus').className = 'scanner-status error';
+                showToast('❌ QR लाइब्रेरी लोड नहीं हुई', 'error');
+                return;
+            }
+
+            try {
+                html5QrCode = new Html5Qrcode("reader");
+                const config = {
+                    fps: 15,
+                    qrbox: { width: 240, height: 240 },
+                    aspectRatio: 1.0
+                };
+
+                html5QrCode.start({ facingMode: "environment" },
+                    config,
+                    function(decodedText) {
+                        // Success callback
+                        document.getElementById('scannerInput').value = decodedText;
+                        document.getElementById('scannerStatus').innerHTML = '✅ एड्रेस स्कैन हो गया!';
+                        document.getElementById('scannerStatus').className = 'scanner-status success';
+                        showToast('✅ एड्रेस स्कैन हो गया! अब राशि डालें और भेजें।', 'success');
+                        // Auto stop after successful scan
+                        stopScanner();
+                    },
+                    function(error) {
+                        // Error callback - ignore, keep scanning
+                        // console.debug('Scan error:', error);
+                    }
+                ).then(() => {
                     isScanning = true;
-                    showToast('📷 कैमरा चालू हो गया है, QR कोड दिखाएँ', 'info');
-                }).catch(err => {
+                    document.getElementById('scannerStatus').innerHTML = '📷 कैमरा चालू है, QR कोड दिखाएँ';
+                    document.getElementById('scannerStatus').className = 'scanner-status info';
+                    showToast('📷 कैमरा चालू हो गया है', 'info');
+                }).catch(function(err) {
+                    console.error('Scanner start error:', err);
+                    document.getElementById('scannerStatus').innerHTML = '❌ कैमरा शुरू नहीं हो सका: ' + err;
+                    document.getElementById('scannerStatus').className = 'scanner-status error';
                     showToast('❌ कैमरा शुरू नहीं हो सका: ' + err, 'error');
+                    isScanning = false;
                 });
+            } catch (e) {
+                console.error('Scanner init error:', e);
+                document.getElementById('scannerStatus').innerHTML = '❌ त्रुटि: ' + e.message;
+                document.getElementById('scannerStatus').className = 'scanner-status error';
+                showToast('❌ स्कैनर इनिशियलाइज़ नहीं हुआ', 'error');
+                isScanning = false;
+            }
         }
 
         function stopScanner() {
             if (html5QrCode && isScanning) {
-                html5QrCode.stop().then(() => { isScanning = false; }).catch(() => {});
+                try {
+                    html5QrCode.stop().then(() => {
+                        isScanning = false;
+                        document.getElementById('scannerStatus').innerHTML = '🛑 स्कैनर बंद कर दिया गया';
+                        document.getElementById('scannerStatus').className = 'scanner-status';
+                    }).catch(function(err) {
+                        console.warn('Stop scanner error:', err);
+                        isScanning = false;
+                    });
+                } catch (e) {
+                    console.warn('Stop scanner error:', e);
+                    isScanning = false;
+                }
+            } else {
+                isScanning = false;
+                document.getElementById('scannerStatus').innerHTML = '🛑 स्कैनर बंद है';
+                document.getElementById('scannerStatus').className = 'scanner-status';
             }
-            isScanning = false;
         }
-
-        function onScanSuccess(decodedText) {
-            document.getElementById('scannerInput').value = decodedText;
-            showToast('✅ एड्रेस स्कैन हो गया! अब राशि डालें और भेजें।', 'success');
-        }
-
-        function onScanError(error) {}
 
         // ============================================================
         // SLIDER
@@ -1374,6 +1455,7 @@
             if (!currentUser) return;
             document.getElementById('userSmartContractAddress').innerText = currentUser.smartContract || 'N/A';
             document.getElementById('mainBalance').innerText = parseFloat(currentUser.coins || 0).toFixed(2) + ' CX';
+            document.getElementById('tradeBalance').innerText = parseFloat(currentUser.tradeWallet || 0).toFixed(2) + ' CX';
             generateRealQR(currentUser.smartContract || 'N/A', 'qrCodeContainer');
         }
 
